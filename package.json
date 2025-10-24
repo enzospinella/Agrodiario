@@ -1,0 +1,23 @@
+{
+  "name": "agrodiario",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "client": "yarn workspace @agrodiario/client",
+    "backend": "yarn workspace @agrodiario/backend",
+    "dev:client": "yarn workspace @agrodiario/client dev",
+    "dev:backend": "yarn workspace @agrodiario/backend start:dev",
+    "build:client": "yarn workspace @agrodiario/client build",
+    "build:backend": "yarn workspace @agrodiario/backend build",
+    "build": "yarn build:client && yarn build:backend",
+    "clean": "rm -rf node_modules packages/*/node_modules"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=18.0.0",
+    "yarn": "^1.22.0"
+  }
+}
