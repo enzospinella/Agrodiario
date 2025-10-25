@@ -1,0 +1,63 @@
+/* src/pages/auth/Register.module.css */
+
+.registerPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+    background-color: var(--color-bg-light);
+  }
+  
+  .registerCard {
+    background: var(--color-bg-white);
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 480px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+  
+  .logo {
+    max-width: 150px;
+    margin: 0 auto 1.5rem auto;
+  }
+  
+  .title {
+    font-size: 1.875rem; /* 30px */
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: 0.5rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 2rem;
+  }
+  
+  .link {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem; /* Espaço entre os inputs */
+  }
+  
+  /* Ajuste para telas menores */
+  @media (max-width: 600px) {
+    .registerPage {
+      padding: 1rem;
+    }
+    .registerCard {
+      padding: 1.5rem;
+      box-shadow: none;
+      border: none;
+    }
+  }

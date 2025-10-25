@@ -1,0 +1,96 @@
+/* src/pages/auth/Login.module.css */
+
+.loginPage {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+    width: 100%;
+  }
+  
+  /* Coluna da Imagem */
+  .imageColumn {
+    background-size: cover;
+    background-position: center;
+  }
+  
+  /* Coluna do Formulário */
+  .formColumn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background-color: #f7f9f7; 
+  }
+  
+  .formCard {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    padding: 3rem;
+    width: 100%;
+    max-width: 520px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+  
+  .logo {
+    max-width: 150px;
+  }
+
+  .logoContainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+  
+  .title {
+    font-size: 1.875rem;
+    font-weight: 400;
+    color: #101828;
+    margin-bottom: 2rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+    color: #475467;
+    margin-bottom: 2rem;
+  }
+  
+  .link {
+    color: #008542;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  
+  .link:hover {
+    text-decoration: underline;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem; 
+  }
+  
+  /* --- Responsividade --- */
+  
+  @media (max-width: 768px) {
+    .loginPage {
+      grid-template-columns: 1fr;
+    }
+  
+    .imageColumn {
+      display: none;
+    }
+  
+    .formColumn {
+      padding: 1rem;
+      min-height: 100vh;
+    }
+  
+    .formCard {
+      box-shadow: none;
+      border: none;
+      padding: 1.5rem;
+    }
+  }

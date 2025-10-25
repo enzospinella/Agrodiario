@@ -1,0 +1,31 @@
+// tsconfig.json
+{
+    "compilerOptions": {
+        "target": "ES2020",
+        "useDefineForClassFields": true,
+        "lib": ["ES2020", "DOM", "DOM.Iterable"],
+        "module": "ESNext",
+        "skipLibCheck": true,
+    
+        /* Configurações do Bundler (Vite) */
+        "moduleResolution": "bundler",
+        "allowImportingTsExtensions": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true, // Vite cuida do build, TS só checa os tipos
+        "jsx": "react-jsx", // Habilita o novo JSX transform
+
+        "baseUrl": ".",
+        "paths": {
+        "@/*": ["./src/*"]
+        },
+  
+        /* Regras de Qualidade de Código */
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noFallthroughCasesInSwitch": true
+    },
+    "include": ["src"], // Quais pastas o TS deve analisar
+    "references": [{ "path": "./tsconfig.node.json" }]
+  }

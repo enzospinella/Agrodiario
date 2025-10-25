@@ -1,0 +1,12 @@
+// tsconfig.node.json
+{
+    "compilerOptions": {
+      "composite": true,
+      "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+      "skipLibCheck": true,
+      "module": "NodeNext",
+      "moduleResolution": "NodeNext",
+      "allowSyntheticDefaultImports": true
+    },
+    "include": ["vite.config.ts"] // Analisa apenas o config do Vite
+}

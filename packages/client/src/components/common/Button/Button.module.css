@@ -1,0 +1,27 @@
+/* src/components/common/Button/Button.module.css */
+.button {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    
+    color: var(--color-text-on-primary);
+    background-color: var(--color-primary);
+    border: none;
+    border-radius: var(--border-radius-md); 
+    
+    cursor: pointer;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+  }
+  
+  .button:hover {
+    background-color: var(--color-primary-dark);
+  }
+
+  .button:disabled,
+.button:disabled:hover {
+  background-color: var(--color-border);
+  color: var(--color-text-placeholder);
+  cursor: not-allowed;
+  opacity: 0.8;
+}
