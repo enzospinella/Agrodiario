@@ -1,0 +1,22 @@
+/* src/layouts/RootLayout.module.css */
+
+.appLayout {
+    display: flex;
+    /* O layout principal é flex, a sidebar já tem largura fixa */
+}
+  
+.contentArea {
+    /* O conteúdo principal ocupa o resto do espaço */
+    flex: 1;
+
+    /* Aqui está o truque: 
+        A sidebar tem 260px, então empurramos o conteúdo 260px para a direita 
+    */
+    margin-left: 20%;
+
+    /* Adiciona padding interno e permite scroll SÓ no conteúdo */
+    padding: 3rem;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: var(--color-bg-light);
+}

@@ -1,18 +1,19 @@
 // src/layouts/RootLayout.tsx
 import { Outlet } from 'react-router-dom';
-// (Opcional) Importe seus componentes de layout
-// import Navbar from '../components/layout/Navbar';
-// import Footer from '../components/layout/Footer';
+import { Sidebar } from '../components/layout/Sidebar/Sidebar'; // Importe a Sidebar
+import styles from './RootLayout.module.css'; // Importe o novo CSS
 
 export default function RootLayout() {
   return (
-    <div className="app-container">
-      {/* <Navbar /> */}
-      <main>
-        {/* O Outlet renderiza a rota filha correspondente */}
+    <div className={styles.appLayout}>
+      {/* 1. A Sidebar fixa */}
+      <Sidebar />
+
+      {/* 2. A área de conteúdo que muda */}
+      <main className={styles.contentArea}>
+        {/* O Outlet renderiza a rota filha (Home, Diary, etc.) */}
         <Outlet />
       </main>
-      {/* <Footer /> */}
     </div>
   );
 }

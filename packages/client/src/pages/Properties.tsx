@@ -1,0 +1,1 @@
+export default function PropertiesPage() { return <h1>Minhas propriedades</h1>; }

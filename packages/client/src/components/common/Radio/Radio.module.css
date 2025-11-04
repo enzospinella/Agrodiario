@@ -1,0 +1,53 @@
+/* src/components/common/Radio/Radio.module.css */
+.radioWrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+  }
+  
+  /* Esconde o input de rádio real */
+  .input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* O círculo externo customizado */
+  .customRadio {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--color-border);
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+  
+  /* Círculo interno (só aparece quando checado) */
+  .customRadio::after {
+    content: '';
+    display: none;
+    width: 10px;
+    height: 10px;
+    background-color: var(--color-primary);
+    border-radius: 50%;
+    
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  /* Quando o input real está checado... */
+  .input:checked + .customRadio {
+    border-color: var(--color-primary); /* Borda fica verde */
+  }
+  
+  /* ...mostra o círculo interno */
+  .input:checked + .customRadio::after {
+    display: block;
+  }

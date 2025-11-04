@@ -34,6 +34,7 @@
   /* Sizing */
   --border-radius-md: 8px;
   --border-radius-lg: 16px;
+  --border-radius-xx: 32px;
 }
 
 html,
