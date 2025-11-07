@@ -65,6 +65,14 @@
   .button.quaternary:hover {
     background-color: #d1ebd9;
   }
+
+  .button.danger {
+    color: var(--color-text-on-primary);
+    background-color: #d9402a; /* Vermelho do seu TagToggle */
+  }
+  .button.danger:hover {
+    background-color: #b92915;
+  }
   
   .button:hover {
     background-color: var(--color-primary-dark);

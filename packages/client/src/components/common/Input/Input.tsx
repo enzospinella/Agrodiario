@@ -55,7 +55,7 @@ export function Input({
   }
 
   return (
-    <div className={wrapperClass}>
+    <div className={wrapperClass} style={props.style}>
       {InputElement}
       {icon && (
         <span onClick={onIconClick} className={styles.icon}>

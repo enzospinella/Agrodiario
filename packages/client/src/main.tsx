@@ -7,7 +7,7 @@ import './styles/global.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    {/* Substitua <App /> por <RouterProvider /> */}
     <RouterProvider router={router} />
+    {/* Substitua <App /> por <RouterProvider /> */}
   </React.StrictMode>
 );

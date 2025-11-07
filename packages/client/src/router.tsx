@@ -14,8 +14,13 @@ import DiaryPage from './pages/Diary';
 import PropertiesPage from './pages/Properties';
 import CulturesPage from './pages/Cultures';
 import ProductsPage from './pages/Products';
-import NewActivityPage from './pages/NewActivity';
+import NewActivityPage from './pages/ActivityForm';
 import DiaryLayout from './layouts/DiaryLayout';
+import NewActivity from './pages/NewActivity';
+import EditActivity from './pages/EditActivity';
+import PropertiesLayout from './layouts/PropertiesLayout';
+import NewProperty from './pages/NewProperty';
+import EditProperty from './pages/EditProperty';
 
 export const router = createBrowserRouter([
   /* --- ROTAS DE AUTENTICAÇÃO (Sem Sidebar) --- */
@@ -40,21 +45,21 @@ export const router = createBrowserRouter([
       },
       {
         path: 'diary',
-        element: <DiaryLayout />, // 2. USAR O NOVO LAYOUT AQUI
+        element: <DiaryLayout />, // O pai <Outlet> renderiza os filhos
         children: [
-          {
-            index: true, // /diary
-            element: <DiaryPage />,
-          },
-          {
-            path: 'new', // /diary/new
-            element: <NewActivityPage />,
-          },
+          { index: true, element: <DiaryPage /> },      // /diary
+          { path: 'new', element: <NewActivity /> },  // /diary/new
+          { path: 'edit/:id', element: <EditActivity /> }, // /diary/edit/1
         ],
       },
       {
         path: 'properties',
-        element: <PropertiesPage />,
+        element: <PropertiesLayout />, // O novo layout de seção
+        children: [
+          { index: true, element: <PropertiesPage /> },    // /properties
+          { path: 'new', element: <NewProperty /> },  // /properties/new
+          { path: 'edit/:id', element: <EditProperty /> }, // /properties/edit/1
+        ],
       },
       {
         path: 'cultures',

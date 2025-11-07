@@ -1,0 +1,68 @@
+/* src/components/common/ConfirmationModal/ConfirmationModal.module.css */
+.container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    /* Deve ficar acima do Drawer (que é z-index 50) */
+    z-index: 60; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Fundo translúcido, como na imagem */
+    background-color: rgba(9, 30, 66, 0.54); 
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  .modalCard {
+    position: relative;
+    z-index: 61; /* Acima do backdrop */
+    width: 100%;
+    max-width: 400px;
+    background-color: var(--color-bg-white);
+    border-radius: var(--border-radius-lg);
+    padding: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    animation: slideDown 0.3s ease-out;
+  }
+  
+  .title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+  
+  .body {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    margin: 1rem 0 1.5rem 0;
+    line-height: 1.5;
+  }
+  
+  .footer {
+    display: flex;
+    gap: 0.75rem;
+  }
+  /* Faz os botões ocuparem o espaço */
+  .footer > button {
+    flex: 1;
+  }
+  
+  /* Animações */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }

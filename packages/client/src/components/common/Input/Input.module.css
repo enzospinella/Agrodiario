@@ -27,10 +27,6 @@
   font-size: 0.95rem;
   color: var(--color-text-primary);
   
-  /* 👇 ADICIONE ESTA LINHA: 
-     Garante que o textarea não possa ser redimensionado pelo usuário
-     (como no design) 
-  */
   resize: none; 
 }
 
