@@ -1,0 +1,1 @@
+export default function CulturesPage() { return <h1>Minhas culturas</h1>; }

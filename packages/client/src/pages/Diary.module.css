@@ -1,0 +1,128 @@
+/* src/pages/Diary.module.css */
+.diaryPage {
+    width: 100%;
+  }
+  
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+  
+  .title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+  
+  .actions {
+    display: flex;
+    width: auto;
+  }
+  
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .searchWrapper {
+    flex: 60; /* Faz a busca ocupar o espaço disponível */
+  }
+
+  .toolbarButtons {
+    display: flex;
+    flex: 40;
+    gap: 1rem;
+  }
+  
+  .grid {
+    display: grid;
+    /* Cria 3 colunas, mas no mínimo de 300px, se não couber, quebra */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .footer {
+    display: flex;
+    justify-content: center;
+    padding: 2.5rem 0;
+  }
+
+  .dropdownMenu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem; /* Espaço entre os itens do menu */
+  }
+  
+  .dropdownItem {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 0.6rem 0.75rem;
+    border-radius: 6px; /* Borda interna suave */
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: background-color 0.1s ease;
+  }
+  
+  .dropdownItem:hover {
+    background-color: var(--color-bg-light);
+    color: var(--color-text-primary);
+  }
+  
+  .linkButton {
+    /* Copia os estilos do .button.primary */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 12px 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: none;
+    border-radius: var(--border-radius-xx);
+    text-decoration: none; /* Remove sublinhado do link */
+    transition: all 0.2s ease;
+    
+    color: var(--color-text-on-primary);
+    background-color: var(--color-primary);
+  }
+  
+  .linkButton:hover {
+    background-color: var(--color-primary-dark);
+  }
+
+  /* --- Responsividade --- */
+  
+  /* Telas médias (tablets) */
+  @media (max-width: 992px) {
+    .grid {
+      /* Força 2 colunas */
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
+  }
+  
+  /* Telas pequenas (celulares) */
+  @media (max-width: 768px) {
+    .header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .actions {
+      width: 100%;
+    }
+    .actions > button {
+      flex: 1;
+    }
+    .toolbar {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }

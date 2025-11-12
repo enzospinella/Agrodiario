@@ -1,0 +1,28 @@
+/* src/components/common/TagToggle/TagToggle.module.css */
+.tag {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  /* Define a cor base quando INATIVO (só a borda) */
+  .inactive {
+    background-color: transparent;
+  }
+  .red.inactive { color: #d9402a; border: 1px solid #fecaca; }
+  .blue.inactive { color: #2a86d9; border: 1px solid #bfdbfe; }
+  .green.inactive { color: #008542; border: 1px solid #bbf7d0; }
+  .orange.inactive { color: #d97706; border: 1px solid #fde68a; }
+  
+  /* Define a cor base quando ATIVO (fundo sólido) */
+  .active {
+    color: white; /* Todas as ativas parecem ter texto branco */
+  }
+  .red.active { background-color: #d9402a; }
+  .blue.active { background-color: #2a86d9; }
+  .green.active { background-color: #008542; }
+  .orange.active { background-color: #d97706; }

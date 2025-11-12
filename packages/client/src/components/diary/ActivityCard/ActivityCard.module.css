@@ -1,0 +1,64 @@
+/* src/components/diary/ActivityCard/ActivityCard.module.css */
+.card {
+    background-color: var(--color-bg-white);
+    border-radius: var(--border-radius-lg);
+    border: 1px solid #eaecf0;
+    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid #eaecf0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+  }
+  
+  .content {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    flex: 1; /* Faz o conteúdo crescer */
+  }
+  
+  .infoItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .infoIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #e3f4e9; /* Fundo verde claro */
+    color: var(--color-primary-dark);
+  }
+  
+  .infoItem strong {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+  
+  .infoItem p {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+  }
+  
+  .footer {
+    padding: 1.25rem;
+    padding-top: 0;
+    display: flex;
+    justify-content: center;
+  }

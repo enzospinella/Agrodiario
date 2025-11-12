@@ -15,9 +15,13 @@
     "build": "yarn build:client && yarn build:backend",
     "clean": "rm -rf node_modules packages/*/node_modules"
   },
-  "devDependencies": {},
   "engines": {
     "node": ">=18.0.0",
     "yarn": "^1.22.0"
+  },
+  "dependencies": {
+    "@types/leaflet": "^1.9.21",
+    "leaflet": "^1.9.4",
+    "react-leaflet": "^5.0.0"
   }
 }

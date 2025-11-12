@@ -1,33 +1,55 @@
 /* src/components/common/Input/Input.module.css */
+
 .inputWrapper {
-    position: relative;
-    width: 100%;
-  }
+  display: flex;
+  align-items: center; /* Padrão (bom para <input>) */
+  gap: 0.5rem;
+  width: 100%;
+  padding: 12px 16px;
+  box-sizing: border-box;
+  background-color: var(--color-bg-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.inputWrapper:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(0, 133, 66, 0.2);
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  padding: 0;
+  background-color: transparent;
+  font-size: 0.95rem;
+  color: var(--color-text-primary);
   
-  .input {
-    width: 100%;
-    padding: 12px 16px;
-    font-size: 0.95rem;
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius-md);
-    box-sizing: border-box; 
-  }
-  
-  .input:has(+ .icon) {
-    padding-right: 40px;
-  }
-  
-  .input::placeholder {
-    color: var(--color-text-placeholder);
-  }
-  
-  .icon {
-    position: absolute;
-    right: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    color: var(--color-text-placeholder);
-    display: flex;
-    align-items: center;
-  }
+  resize: none; 
+}
+
+.input::placeholder {
+  color: var(--color-text-placeholder);
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--color-text-placeholder);
+}
+
+/* --- 👇 ADICIONE ESTAS NOVAS CLASSES --- */
+
+/* 1. Alinha o ícone (se houver) ao topo, não ao centro */
+.textareaWrapper {
+  align-items: flex-start;
+}
+
+/* 2. Define uma altura mínima para o textarea */
+.textarea {
+  min-height: 120px; /* Altura padrão para 'Descrição' */
+  line-height: 1.5; /* Melhora a legibilidade do textarea */
+}

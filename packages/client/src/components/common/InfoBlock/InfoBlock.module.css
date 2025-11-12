@@ -1,0 +1,31 @@
+.infoBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .infoHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .infoIcon {
+    color: var(--color-icon);
+  }
+
+  .infoLabel {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+  }
+  
+  .infoValue {
+    font-size: 0.95rem;
+    color: var(--color-text-primary);
+    line-height: 1.5;
+    /* Quebra de linha para descrições longas */
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }

@@ -1,0 +1,74 @@
+/* src/components/properties/PropertyDetailsDrawer/PropertyDetailsDrawer.module.css */
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  .mainContent {
+    padding: 1.5rem;
+    flex-grow: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem; /* Espaço maior entre as seções principais */
+  }
+  
+  .sectionTitle {
+    font-size: 0.9rem;
+    font-weight: 600;
+    background-color: #dbeafe; /* Azul claro (ajustado para parecer a imagem) */
+    color: #1e40af;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 1.25rem;
+  }
+  
+  /* --- Estilos específicos da seção de Talhões --- */
+  .emptyState {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 1rem;
+  }
+  
+  .talhoesList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .addTalhaoButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.75rem;
+    background: none;
+    border: none; /* Você pode adicionar uma borda tracejada se quiser */
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--color-primary-dark);
+    transition: opacity 0.2s;
+  }
+  .addTalhaoButton:hover {
+    opacity: 0.8;
+    background-color: #f0f9f0; /* Feedback visual ao passar o mouse */
+    border-radius: var(--border-radius-md);
+  }
+  
+  /* --- Rodapé --- */
+  .footer {
+    display: flex;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-top: 1px solid #eaecf0;
+    background-color: var(--color-bg-white);
+    flex-shrink: 0;
+  }
+  .footer > button {
+    flex: 1;
+  }

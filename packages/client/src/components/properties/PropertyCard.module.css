@@ -1,0 +1,78 @@
+/* src/components/properties/PropertyCard.module.css */
+.card {
+    background-color: var(--color-bg-white);
+    border-radius: var(--border-radius-lg);
+    border: 1px solid #eaecf0;
+    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid #eaecf0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+  
+  .content {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    flex: 1;
+  }
+  
+  .infoItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .infoIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: var(--color-text-secondary);
+  }
+  
+  .infoItem strong {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+  
+  .infoItem p {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+  }
+  
+  .footer {
+    padding: 1.25rem;
+    padding-top: 0;
+  }
+  
+  /* Botão "Gerenciar" (estilizado como quaternary) */
+  .manageButtonLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: var(--border-radius-md);
+    color: var(--color-primary-dark);
+    background-color: #e3f4e9;
+    transition: background-color 0.2s ease;
+  }
+  .manageButtonLink:hover {
+    background-color: #d1ebd9;
+  }

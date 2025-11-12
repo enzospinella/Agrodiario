@@ -1,0 +1,68 @@
+/* src/components/common/Drawer/Drawer.module.css */
+.container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 50; /* Fica acima de todo o conteúdo */
+    display: flex;
+    justify-content: flex-end; /* Alinha o painel à direita */
+  }
+  
+  .backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(9, 30, 66, 0.54); /* Fundo escuro */
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  .drawerPanel {
+    width: 100%;
+    max-width: 460px; /* Largura do painel no design */
+    height: 100vh;
+    background-color: var(--color-bg-white);
+    z-index: 51;
+    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
+    animation: slideIn 0.3s ease-out;
+    display: flex;
+    flex-direction: column; /* Organiza header e content */
+  }
+  
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    border-bottom: 1px solid #eaecf0;
+    flex-shrink: 0; /* Impede o header de encolher */
+  }
+  
+  .header h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+  
+  .closeButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+  }
+  .closeButton:hover {
+    color: var(--color-text-primary);
+  }
+  
+  /* Animações */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slideIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+  }
