@@ -18,7 +18,22 @@ export const validationSchema = Joi.object({
   DB_DATABASE: Joi.string().required(),
   DB_SYNCHRONIZE: Joi.boolean().default(false),
 
-  // JWT (optional for now)
-  JWT_SECRET: Joi.string().optional(),
+  // JWT
+  JWT_SECRET: Joi.string().required(),
   JWT_EXPIRATION: Joi.string().default('1d'),
+  JWT_REMEMBER_ME_EXPIRATION: Joi.string().default('30d'),
+
+  // Email
+  SMTP_HOST: Joi.string().required(),
+  SMTP_PORT: Joi.number().default(587),
+  SMTP_SECURE: Joi.boolean().default(false),
+  SMTP_USER: Joi.string().required(),
+  SMTP_PASSWORD: Joi.string().required(),
+  SMTP_FROM: Joi.string().required(),
+
+  // Frontend
+  FRONTEND_URL: Joi.string().required(),
+
+  // Rate Limiting
+  MAX_LOGIN_ATTEMPTS: Joi.number().default(5),
 });
