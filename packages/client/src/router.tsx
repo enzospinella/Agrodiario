@@ -3,6 +3,7 @@ import { createBrowserRouter, Outlet } from 'react-router-dom';
 
 // Layouts
 import RootLayout from './layouts/RootLayout';
+import { ProtectedRoute } from './components/auth/ProtectedRoute';
 
 // Páginas de Autenticação
 import LoginPage from './pages/auth/Login';
@@ -36,7 +37,11 @@ export const router = createBrowserRouter([
   /* --- ROTAS DO APP (Com Sidebar) --- */
   {
     path: '/',
-    element: <RootLayout />, // O Layout com a Sidebar
+    element: (
+      <ProtectedRoute>
+        <RootLayout />
+      </ProtectedRoute>
+    ),
     // errorElement: <ErrorPage />,
     children: [
       {
