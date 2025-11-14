@@ -8,6 +8,7 @@ import databaseConfig from '@config/database.config';
 import { validationSchema } from '@config/validation.schema';
 import { UsersModule } from '@modules/users/users.module';
 import { AuthModule } from '@modules/auth/auth.module';
+import { PropertiesModule } from '@modules/properties/properties.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { AuthModule } from '@modules/auth/auth.module';
     // Feature modules
     UsersModule,
     AuthModule,
+    PropertiesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
