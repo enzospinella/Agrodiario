@@ -1,7 +1,8 @@
 // src/components/layout/Sidebar/Sidebar.tsx
 import { useNavigate, NavLink } from 'react-router-dom';
+import { useAuth } from '../../../contexts/AuthContext';
 import styles from './Sidebar.module.css';
-import logo from '../../../assets/logo.png'; // Verifique se o caminho do logo está correto
+import logo from '../../../assets/logo.png';
 
 // Importando ícones do React-Icons (pacote Feather)
 import {
@@ -13,11 +14,11 @@ import { LuFileBadge } from 'react-icons/lu';
 
 export function Sidebar() {
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const handleLogout = () => {
-    // Adicionar sua lógica de logout (limpar token, etc.)
-    console.log('Usuário deslogado');
-    navigate('/login'); // Redireciona para o login
+    logout();
+    navigate('/login');
   };
 
   return (

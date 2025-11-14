@@ -7,6 +7,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Button } from '../../components/common/Button/Button';
 import { Input } from '../../components/common/Input/Input';
 import { cpfMask, dateMask, phoneMask } from '../../utils/masks';
+import { useAuth } from '../../contexts/AuthContext';
 import logo from '../../assets/logo.png';
 import styles from './Register.module.css';
 
@@ -23,6 +24,8 @@ interface FormData {
 
 export default function RegisterPage() {
   const navigate = useNavigate();
+  const { register, isLoading } = useAuth();
+
   const [formData, setFormData] = useState<FormData>({
     nome: '',
     cpf: '',
@@ -36,6 +39,7 @@ export default function RegisterPage() {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Efeito para validar o formulário
   useEffect(() => {
@@ -47,9 +51,9 @@ export default function RegisterPage() {
   }, [formData]);
 
   // Handler genérico para os inputs
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    
+
     // Aplica a máscara correta com base no 'name' do input
     let maskedValue = value;
     switch (name) {
@@ -72,19 +76,45 @@ export default function RegisterPage() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isButtonDisabled) return;
+    if (isButtonDisabled || isLoading) return;
 
-    // (Opcional) Validação extra antes de submeter
+    // Validação de senha
     if (formData.senha !== formData.confirmaSenha) {
-      alert('As senhas não conferem!');
+      setError('As senhas não conferem!');
       return;
     }
 
-    console.log('Dados da conta criada:', formData);
-    alert('Conta criada com sucesso! (Veja o console)');
-    navigate('/'); // Navega para a Home
+    // Validação de tamanho mínimo da senha
+    if (formData.senha.length < 6) {
+      setError('A senha deve ter pelo menos 6 caracteres');
+      return;
+    }
+
+    setError(null);
+
+    try {
+      // Converte data do formato DD/MM/YYYY para ISO (YYYY-MM-DD)
+      const [day, month, year] = formData.dataNascimento.split('/');
+      const birthDate = `${year}-${month}-${day}`;
+
+      // Chama o método register do AuthContext
+      await register({
+        name: formData.nome,
+        email: formData.email,
+        password: formData.senha,
+        cpf: formData.cpf,
+        phone: formData.telefone,
+        birthDate,
+      });
+
+      // Se chegou aqui, o registro foi bem-sucedido (auto-login)
+      navigate('/');
+    } catch (err: any) {
+      console.error('Erro no registro:', err);
+      setError(err.message || 'Erro ao criar conta. Tente novamente.');
+    }
   };
 
   return (
@@ -100,6 +130,19 @@ export default function RegisterPage() {
         </p>
 
         <form onSubmit={handleSubmit} className={styles.form}>
+          {error && (
+            <div style={{
+              padding: '12px',
+              backgroundColor: '#fee',
+              color: '#c33',
+              borderRadius: '4px',
+              marginBottom: '16px',
+              fontSize: '14px'
+            }}>
+              {error}
+            </div>
+          )}
+
           <Input
             label="Seu nome completo"
             name="nome"
@@ -167,8 +210,8 @@ export default function RegisterPage() {
             required
           />
 
-          <Button type="submit" disabled={isButtonDisabled}>
-            Criar conta
+          <Button type="submit" disabled={isButtonDisabled || isLoading}>
+            {isLoading ? 'Criando conta...' : 'Criar conta'}
           </Button>
         </form>
       </div>
