@@ -12,9 +12,10 @@ import {
   FiDownload,
 } from 'react-icons/fi';
 import { MdArrowDropDown } from 'react-icons/md';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Drawer } from '@/components/common/Drawer/Drawer';
 import { ActivityDetailsDrawer } from '@/components/diary/ActivityDetailsDrawer/ActivityDetailsDrawer';
+import { activityService } from '@/services/activityService';
 
 export type Activity = {
   id: string;
@@ -30,119 +31,11 @@ export type Activity = {
   anexos: { name: string }[];
 };
 
-// Dados de exemplo
-const mockData = [
-  {
-    id: '1',
-    date: '12/07/25',
-    title: 'Lorem Ipsum',
-    preparo: 'Aragem no solo do talhão 3',
-    aplicacao: 'Fertilizante NPK (20 kg)',
-    responsavel: 'Lorem Ipsum e equipe',
-    propriedade: 'Sítio Oliveira',
-    tipo: 'preparo' as 'preparo',
-    descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    anexos: [{ name: 'Foto.png' }],
-  },
-  {
-    id: '2',
-    date: '12/07/25',
-    title: 'Lorem Ipsum',
-    preparo: 'Aragem no solo do talhão 3',
-    aplicacao: 'Fertilizante NPK (20 kg)',
-    responsavel: 'Lorem Ipsum e equipe',
-    propriedade: 'Sítio Oliveira',
-    tipo: 'preparo' as 'preparo',
-    descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    anexos: [{ name: 'Foto.png' }],
-  },
-  {
-    id: '3',
-    date: '12/07/25',
-    title: 'Lorem Ipsum',
-    preparo: 'Aragem no solo do talhão 3',
-    aplicacao: 'Fertilizante NPK (20 kg)',
-    responsavel: 'Lorem Ipsum e equipe',
-    propriedade: 'Sítio Oliveira',
-    tipo: 'preparo' as 'preparo',
-    descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    anexos: [{ name: 'Foto.png' }],
-  },
-  {
-    id: '4',
-    date: '12/07/25',
-    title: 'Lorem Ipsum',
-    preparo: 'Aragem no solo do talhão 3',
-    aplicacao: 'Fertilizante NPK (20 kg)',
-    responsavel: 'Lorem Ipsum e equipe',
-    propriedade: 'Sítio Oliveira',
-    tipo: 'preparo' as 'preparo',
-    descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    anexos: [{ name: 'Foto.png' }],
-  },
-  {
-    id: '5',
-    date: '12/07/25',
-    title: 'Lorem Ipsum',
-    preparo: 'Aragem no solo do talhão 3',
-    aplicacao: 'Fertilizante NPK (20 kg)',
-    responsavel: 'Lorem Ipsum e equipe',
-    propriedade: 'Sítio Oliveira',
-    tipo: 'preparo' as 'preparo',
-    descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    anexos: [{ name: 'Foto.png' }],
-  },
-  {
-    id: '6',
-    date: '12/07/25',
-    title: 'Lorem Ipsum',
-    preparo: 'Aragem no solo do talhão 3',
-    aplicacao: 'Fertilizante NPK (20 kg)',
-    responsavel: 'Lorem Ipsum e equipe',
-    propriedade: 'Sítio Oliveira',
-    tipo: 'preparo' as 'preparo',
-    descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    anexos: [{ name: 'Foto.png' }],
-  },
-  {
-    id: '7',
-    date: '12/07/25',
-    title: 'Lorem Ipsum',
-    preparo: 'Aragem no solo do talhão 3',
-    aplicacao: 'Fertilizante NPK (20 kg)',
-    responsavel: 'Lorem Ipsum e equipe',
-    propriedade: 'Sítio Oliveira',
-    tipo: 'preparo' as 'preparo',
-    descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    anexos: [{ name: 'Foto.png' }],
-  },
-  {
-    id: '8',
-    date: '12/07/25',
-    title: 'Lorem Ipsum',
-    preparo: 'Aragem no solo do talhão 3',
-    aplicacao: 'Fertilizante NPK (20 kg)',
-    responsavel: 'Lorem Ipsum e equipe',
-    propriedade: 'Sítio Oliveira',
-    tipo: 'preparo' as 'preparo',
-    descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    anexos: [{ name: 'Foto.png' }],
-  },
-  {
-    id: '9',
-    date: '02/07/25',
-    title: 'Lorem Ipsum',
-    preparo: 'Aragem no solo do talhão 3',
-    aplicacao: 'Fertilizante NPK (20 kg)',
-    responsavel: 'Lorem Ipsum e equipe',
-    propriedade: 'Sítio Oliveira',
-    tipo: 'preparo' as 'preparo',
-    descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    anexos: [{ name: 'Foto.png' }],
-  },
-];
 
 export default function DiaryPage() {
+
+  const [activities, setActivities] = useState<any[]>([]); // Use o tipo correto
+  const [loading, setLoading] = useState(true);
 
   const handleSortNewest = () => {
     console.log('Ordenando por mais recentes');
@@ -173,12 +66,29 @@ export default function DiaryPage() {
     // Aqui você pode navegar para a página de edição
     // navigate(`edit/${selectedActivity?.id}`)
   };
-
-  const handleDelete = () => {
-    console.log('Excluir:', selectedActivity?.id);
-    // Adicione a lógica de exclusão
-    handleCloseDrawer(); // Fecha o drawer após excluir
+  
+  const loadActivities = async () => {
+    try {
+      const data = await activityService.getAll();
+      setActivities(data);
+    } catch (error) {
+      console.error("Erro ao carregar", error);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  const handleDelete = async () => {
+    if (!selectedActivity) return;
+    await activityService.delete(selectedActivity.id);
+    await loadActivities(); // Recarrega a lista após deletar
+    handleCloseDrawer();
+ }
+
+  useEffect(() => {
+    console.log("Carregando atividades...");
+    loadActivities();
+  }, []);
 
   return (
     <div className={styles.diaryPage}>
@@ -223,7 +133,7 @@ export default function DiaryPage() {
 
       {/* 3. Grid de Cards */}
       <div className={styles.grid}>
-        {mockData.map((item) => (
+        {activities.map((item) => (
           <ActivityCard
           key={item.id}
           // 7. Passar a atividade inteira e a função de 'view'
@@ -246,7 +156,10 @@ export default function DiaryPage() {
         {/* Só renderiza o conteúdo se uma atividade estiver selecionada */}
         {selectedActivity && (
           <ActivityDetailsDrawer
-            activity={selectedActivity}
+            activity={{
+              ...selectedActivity,
+              anexos: selectedActivity.anexos.map((anexo) => anexo.name),
+            }}
             onEdit={handleEdit}
             onDelete={handleDelete}
           />
