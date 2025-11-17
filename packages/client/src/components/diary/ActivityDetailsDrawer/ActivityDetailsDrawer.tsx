@@ -111,6 +111,7 @@ export function ActivityDetailsDrawer({ activity, onDelete }: Props) {
           )}
 
           {activity.anexos?.map((fileName, index) => (
+            console.log('Anexo:', activity.anexos), (
             <div key={index} className={styles.anexoItem}>
               <span className={styles.fileName} title={fileName}>
                 {fileName}
@@ -123,7 +124,7 @@ export function ActivityDetailsDrawer({ activity, onDelete }: Props) {
                 <FiEye size={18} />
               </button>
             </div>
-          ))}
+          )))}
         </section>
       </div>
 

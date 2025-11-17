@@ -28,7 +28,7 @@ export type Activity = {
   propriedade: string;
   tipo: 'preparo' | 'aplicacao' | 'colheita' | 'manejo';
   descricao: string;
-  anexos: { name: string }[];
+  anexos: [];
 };
 
 
@@ -158,7 +158,6 @@ export default function DiaryPage() {
           <ActivityDetailsDrawer
             activity={{
               ...selectedActivity,
-              anexos: selectedActivity.anexos.map((anexo) => anexo.name),
             }}
             onEdit={handleEdit}
             onDelete={handleDelete}

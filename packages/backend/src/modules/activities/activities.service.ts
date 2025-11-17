@@ -19,8 +19,19 @@ export class ActivityService {
     createActivityDto: CreateActivityDto, 
     files: Array<Express.Multer.File> = []
   ): Promise<Activity> {
+
+    console.log('--- DEBUG SERVICE ---');
+    if (files && files.length > 0) {
+      console.log('Primeiro arquivo recebido:', files[0]);
+      console.log('Tem propriedade filename?', 'filename' in files[0]);
+      console.log('Valor de filename:', files[0].filename);
+    } else {
+      console.log('Nenhum arquivo recebido no Service');
+    }
     
     const fileNames = files ? files.map(file => file.filename) : [];
+
+    console.log('Nomes para salvar no banco:', fileNames);
 
     const newActivity = this.activityRepository.create({
       ...createActivityDto,

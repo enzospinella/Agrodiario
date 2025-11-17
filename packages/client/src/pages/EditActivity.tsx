@@ -38,16 +38,19 @@ export default function EditActivity() {
   }, [id, navigate]);
 
   // 2. Função para salvar as alterações
-  const handleEdit = async (data: ActivityFormData, files: File[]) => {
+  const handleEdit = async (data: ActivityFormData, files: File[], removedFiles: string[]) => {
     if (!id) return;
 
     try {
       setIsSaving(true);
 
-      await activityService.update(id, data), {
+      console.log('Enviando para API:', { data, filesCount: files.length, removedFiles }); 
+
+      await activityService.update(id, {
         ...data,
-        files: files, // Envia novos arquivos (se houver)
-      };
+        files: files,          
+        removedFiles: removedFiles, 
+      });
 
       alert('Atividade atualizada com sucesso!');
       navigate('/diary');
