@@ -30,7 +30,7 @@ export class CreateActivityDto {
   insumoNome?: string;
 
   @IsOptional()
-  @Type(() => Number) // Converte "100" para 100 antes de validar
+  @Type(() => Number) 
   @IsNumber()
   insumoQuantidade?: number;
 

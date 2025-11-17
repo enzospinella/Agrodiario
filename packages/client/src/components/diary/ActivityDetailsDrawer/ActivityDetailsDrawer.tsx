@@ -61,7 +61,7 @@ export function ActivityDetailsDrawer({ activity, onDelete }: Props) {
 
   // Função para abrir o anexo
   const handleViewAnexo = (fileName: string) => {
-    window.open(`${UPLOADS_URL}${fileName}`, '_blank');
+    window.open(`${UPLOADS_URL}/${fileName}`, '_blank');
   };
 
   return (
@@ -102,7 +102,7 @@ export function ActivityDetailsDrawer({ activity, onDelete }: Props) {
           </section>
         )}
 
-        {/* Seção de Anexos (CORRIGIDA) */}
+        {/* Seção de Anexos */}
         <section className={styles.section}>
           <h3 className={styles.sectionTitle}>Anexos</h3>
           

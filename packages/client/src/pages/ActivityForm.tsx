@@ -129,7 +129,7 @@ export function ActivityForm({ initialData, onSubmit, isLoading = false }: Props
   const handleViewFile = (file: File | string) => {
     if (typeof file === 'string') {
       // Arquivo existente: abre URL do backend
-      window.open(`${UPLOADS_URL}${file}`, '_blank');
+      window.open(`${UPLOADS_URL}/${file}`, '_blank');
     } else {
       // Arquivo novo: cria URL temporária local
       const url = URL.createObjectURL(file);

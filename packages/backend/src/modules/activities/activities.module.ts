@@ -12,12 +12,10 @@ import { Activity } from './entities/activity.entity';
 @Module({
   imports: [
     TypeOrmModule.forFeature([Activity]),
-    MulterModule.registerAsync({ // Use registerAsync para mais segurança
+    MulterModule.registerAsync({ 
       useFactory: () => {
-        // Caminho absoluto para a pasta uploads na raiz do projeto
         const uploadPath = resolve(__dirname, '..', '..', 'uploads');
         
-        // Cria a pasta se não existir
         if (!existsSync(uploadPath)) {
           mkdirSync(uploadPath, { recursive: true });
         }

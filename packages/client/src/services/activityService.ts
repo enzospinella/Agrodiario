@@ -1,6 +1,5 @@
 // src/services/activityService.ts
 import { apiClient } from '../config/api.client';
-import { PropertyFormData } from '../components/properties/PropertyForm/PropertyForm'; // Adapte para o tipo da Activity se for diferente
 
 // Tipo simplificado baseado no seu form de Atividades
 export interface ActivityDTO {
@@ -25,15 +24,13 @@ const createFormData = (data: ActivityDTO) => {
   formData.append('descricao', data.descricao);
   formData.append('responsavel', data.responsavel);
 
-  // Adiciona Arquivos Novos (para upload)
   if (data.files && data.files.length > 0) {
     data.files.forEach((file) => {
-      formData.append('files', file); // 'files' deve bater com o backend
+      formData.append('files', file); 
     });
   }
 
   if (data.removedFiles && data.removedFiles.length > 0) {
-    // Enviamos como JSON string para o backend fazer o parse
     formData.append('removedFiles', JSON.stringify(data.removedFiles));
   }
 
@@ -53,14 +50,23 @@ export const activityService = {
 
   create: async (data: ActivityDTO) => {
     const formData = createFormData(data);
-    // Importante: O browser define o Content-Type multipart/form-data automaticamente
-    const response = await apiClient.post('/activities', formData);
+    
+    const response = await apiClient.post('/activities', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data', 
+      },
+    });
     return response.data;
   },
 
   update: async (id: string, data: ActivityDTO) => {
     const formData = createFormData(data);
-    const response = await apiClient.patch(`/activities/${id}`, formData);
+    
+    const response = await apiClient.patch(`/activities/${id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response.data;
   },
 
