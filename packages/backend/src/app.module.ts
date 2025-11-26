@@ -9,6 +9,7 @@ import { validationSchema } from '@config/validation.schema';
 import { UsersModule } from '@modules/users/users.module';
 import { AuthModule } from '@modules/auth/auth.module';
 import { PropertiesModule } from '@modules/properties/properties.module';
+import { CulturesModule } from '@modules/cultures/cultures.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { PropertiesModule } from '@modules/properties/properties.module';
     UsersModule,
     AuthModule,
     PropertiesModule,
+    CulturesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
