@@ -6,7 +6,7 @@ import { Activity } from './entities/activity.entity';
 import { CreateActivityDto } from './dto/create-activity.dto';
 import { UpdateActivityDto } from './dto/update-activity.dto';
 import { join } from 'path';
-import * as fs from 'fs'; // Importar File System
+import * as fs from 'fs'; 
 
 @Injectable()
 export class ActivityService {

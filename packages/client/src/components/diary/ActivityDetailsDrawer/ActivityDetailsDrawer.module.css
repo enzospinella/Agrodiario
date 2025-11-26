@@ -81,15 +81,17 @@
     background: none;
     border: none;
     cursor: pointer;
-    color: var(--color-text-secondary);
     display: flex;
     align-items: center;
     padding: 4px;
     border-radius: 4px;
     transition: background-color 0.2s;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #ffefe5; 
+    color: #d95a2a; 
   }
-  
+
   .viewButton:hover {
-    background-color: #f2f4f7;
-    color: var(--color-primary);
+    background-color: #ffdcc9;
   }

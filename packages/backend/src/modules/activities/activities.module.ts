@@ -3,8 +3,8 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { extname, resolve } from 'path'; // Importe resolve
-import { existsSync, mkdirSync } from 'fs'; // Importe fs
+import { extname, resolve } from 'path'; 
+import { existsSync, mkdirSync } from 'fs'; 
 import { ActivityService } from './activities.service';
 import { ActivityController } from './activities.controller';
 import { Activity } from './entities/activity.entity';

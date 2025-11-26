@@ -2,8 +2,8 @@
 import { Button } from '../components/common/Button/Button';
 import { Input } from '../components/common/Input/Input';
 import { Dropdown } from '../components/common/Dropdown/Dropdown';
-import { PropertyCard } from '../components/properties/PropertyCard'; // Importa o novo card
-import styles from './Properties.module.css'; // Vamos criar este CSS
+import { PropertyCard } from '../components/properties/PropertyCard'; 
+import styles from './Properties.module.css'; 
 import { FiSearch, FiDownload } from 'react-icons/fi';
 import { FaRegCalendarPlus } from 'react-icons/fa';
 import { MdArrowDropDown } from 'react-icons/md';
@@ -12,7 +12,6 @@ import { useState } from 'react';
 import { Property } from '@/components/properties/PropertyDetailsDrawer/PropertyDetailsDrawer';
 import { PropertyDetailsDrawer } from '@/components/properties/PropertyDetailsDrawer/PropertyDetailsDrawer';
 
-// Dados de exemplo
 const mockProperties = [
   {
     id: 1,
@@ -97,25 +96,21 @@ export default function PropertiesPage() {
     
       const handleCloseDrawer = () => {
         setIsDrawerOpen(false);
-        // É uma boa prática limpar o estado ao fechar
-        setTimeout(() => setselectedProperty(null), 300); // Atraso pela animação
+        setTimeout(() => setselectedProperty(null), 300); 
       };
 
       const handleEdit = () => {
         console.log('Editar:', selectedProperty?.id);
-        // Aqui você pode navegar para a página de edição
         // navigate(`edit/${selectedActivity?.id}`)
       };
     
       const handleDelete = () => {
         console.log('Excluir:', selectedProperty?.id);
-        // Adicione a lógica de exclusão
-        handleCloseDrawer(); // Fecha o drawer após excluir
+        handleCloseDrawer(); 
       };
 
   return (
     <>
-      {/* Barra de Ferramentas (Toolbar) */}
       <div className={styles.toolbar}>
         <div className={styles.searchWrapper}>
           <Input
@@ -155,7 +150,6 @@ export default function PropertiesPage() {
         </div>
       </div>
 
-      {/* Grid de Cards */}
       <div className={styles.grid}>
         {mockProperties.map((prop) => (
           <PropertyCard key={prop.id} property={prop} 
@@ -163,7 +157,6 @@ export default function PropertiesPage() {
         ))}
       </div>
 
-      {/* (Opcional) Rodapé (Carregar mais) */}
       <footer className={styles.footer}>
         <Button variant="quaternary">Carregar mais</Button>
       </footer>
@@ -173,7 +166,6 @@ export default function PropertiesPage() {
         onClose={handleCloseDrawer}
         title="Visualizar atividade"
       >
-        {/* Só renderiza o conteúdo se uma atividade estiver selecionada */}
         {selectedProperty && (
           <PropertyDetailsDrawer property={selectedProperty} onDelete={handleDelete} />
         )}

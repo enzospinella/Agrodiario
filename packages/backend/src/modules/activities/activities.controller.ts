@@ -7,7 +7,6 @@ import { ActivityService } from './activities.service';
 import { CreateActivityDto } from './dto/create-activity.dto';
 import { UpdateActivityDto } from './dto/update-activity.dto';
 
-// Imports necessários para a config local
 import { diskStorage } from 'multer';
 import { extname, resolve } from 'path';
 import { existsSync, mkdirSync } from 'fs';
@@ -38,7 +37,6 @@ export class ActivityController {
   constructor(private readonly activityService: ActivityService) {}
 
   @Post()
-  // Injetamos a config diretamente aqui 👇
   @UseInterceptors(FilesInterceptor('files', 10, multerOptions)) 
   create(
     @Body() createActivityDto: CreateActivityDto,

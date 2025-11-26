@@ -6,7 +6,6 @@ import { Dropdown } from '../components/common/Dropdown/Dropdown';
 import { ActivityCard } from '../components/diary/ActivityCard/ActivityCard';
 import styles from './Diary.module.css';
 
-// Ícones
 import {
   FiSearch,
   FiDownload,
@@ -24,7 +23,6 @@ export type Activity = {
   preparo: string;
   aplicacao: string;
   responsavel: string;
-  // Campos adicionais para os detalhes
   propriedade: string;
   tipo: 'preparo' | 'aplicacao' | 'colheita' | 'manejo';
   descricao: string;
@@ -34,7 +32,7 @@ export type Activity = {
 
 export default function DiaryPage() {
 
-  const [activities, setActivities] = useState<any[]>([]); // Use o tipo correto
+  const [activities, setActivities] = useState<any[]>([]); 
   const [loading, setLoading] = useState(true);
 
   const handleSortNewest = () => {
@@ -57,14 +55,11 @@ export default function DiaryPage() {
 
   const handleCloseDrawer = () => {
     setIsDrawerOpen(false);
-    // É uma boa prática limpar o estado ao fechar
-    setTimeout(() => setSelectedActivity(null), 300); // Atraso pela animação
+    setTimeout(() => setSelectedActivity(null), 300); 
   };
 
   const handleEdit = () => {
     console.log('Editar:', selectedActivity?.id);
-    // Aqui você pode navegar para a página de edição
-    // navigate(`edit/${selectedActivity?.id}`)
   };
   
   const loadActivities = async () => {
@@ -81,7 +76,7 @@ export default function DiaryPage() {
   const handleDelete = async () => {
     if (!selectedActivity) return;
     await activityService.delete(selectedActivity.id);
-    await loadActivities(); // Recarrega a lista após deletar
+    await loadActivities(); 
     handleCloseDrawer();
  }
 
@@ -131,19 +126,16 @@ export default function DiaryPage() {
         </div>
       </div>
 
-      {/* 3. Grid de Cards */}
       <div className={styles.grid}>
         {activities.map((item) => (
           <ActivityCard
           key={item.id}
-          // 7. Passar a atividade inteira e a função de 'view'
           activity={item}
           onView={() => handleViewActivity(item)}
         />
         ))}
       </div>
 
-      {/* 4. Rodapé (Carregar mais) */}
       <footer className={styles.footer}>
         <Button variant="quaternary" style={{ width: '15%', borderRadius: '32px', border: '1px solid rgba(0, 0, 0, 0.5)' }}>Carregar mais</Button>
       </footer>
@@ -153,7 +145,6 @@ export default function DiaryPage() {
         onClose={handleCloseDrawer}
         title="Visualizar atividade"
       >
-        {/* Só renderiza o conteúdo se uma atividade estiver selecionada */}
         {selectedActivity && (
           <ActivityDetailsDrawer
             activity={{

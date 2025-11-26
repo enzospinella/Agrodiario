@@ -18,7 +18,6 @@ export default function NewActivity() {
         files: files,
       });
 
-      alert('Atividade criada com sucesso!');
       navigate('/diary'); 
     } catch (error) {
       console.error('Erro ao criar atividade:', error);

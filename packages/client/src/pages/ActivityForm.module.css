@@ -150,19 +150,17 @@
     transition: all 0.2s;
   }
   
-  /* Botão de Olho (Laranja claro) */
   .actionBtn {
-    background-color: #ffefe5; /* Laranja bem claro */
-    color: #d95a2a; /* Laranja escuro */
+    background-color: #ffefe5; 
+    color: #d95a2a; 
   }
   .actionBtn:hover {
     background-color: #ffdcc9;
   }
   
-  /* Botão de Lixeira (Vermelho claro - sobrescreve o laranja) */
   .deleteBtn {
-    background-color: #fee2e2; /* Vermelho bem claro */
-    color: #dc2626; /* Vermelho escuro */
+    background-color: #fee2e2;
+    color: #dc2626; 
   }
   .deleteBtn:hover {
     background-color: #fecaca;

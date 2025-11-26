@@ -1,46 +1,39 @@
 // src/components/diary/ActivityDetailsDrawer/ActivityDetailsDrawer.tsx
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './ActivityDetailsDrawer.module.css';
 import { Button } from '../../common/Button/Button';
 import { TagToggle } from '../../common/TagToggle/TagToggle';
 import { ConfirmationModal } from '../../common/ConfirmationModal/ConfirmationModal';
 import { FiTrash2, FiEdit2, FiEye } from 'react-icons/fi';
-import { UPLOADS_URL } from '../../../config/api.client'; // Importe a URL base
+import { UPLOADS_URL } from '../../../config/api.client'; 
+import { BsCalendar4Event } from 'react-icons/bs';
+import { InfoBlock } from '@/components/common/InfoBlock/InfoBlock';
+import { RiHome8Line } from 'react-icons/ri';
 
-// Atualize o tipo para bater com o retorno da API
 type Activity = {
   id: string;
   date: string;
   propriedade: string;
-  tipo: string; // string vindo do back
+  tipo: string; 
   descricao: string;
   responsavel: string;
   insumoNome?: string;
   insumoQuantidade?: string;
   insumoUnidade?: string;
-  anexos?: string[]; // Agora é um array de strings (nomes dos arquivos)
+  anexos?: string[];
 };
 
 type Props = {
   activity: Activity;
-  onEdit?: () => void; // Opcional pois lidamos com navegação interna ou prop
+  onEdit?: () => void; 
   onDelete: () => void;
 };
 
-// Componente auxiliar
-const InfoBlock = ({ label, value }: { label: string; value: string | undefined }) => (
-  <div className={styles.infoBlock}>
-    <span className={styles.infoLabel}>{label}</span>
-    <span className={styles.infoValue}>{value || '-'}</span>
-  </div>
-);
 
 export function ActivityDetailsDrawer({ activity, onDelete }: Props) {
   const navigate = useNavigate();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-
-  // Função auxiliar para cores das tags
   const getTagColor = (type: string) => {
     const normalizedType = type.toLowerCase();
     if (normalizedType.includes('preparo')) return 'red';
@@ -59,23 +52,20 @@ export function ActivityDetailsDrawer({ activity, onDelete }: Props) {
     setIsDeleteModalOpen(false);
   };
 
-  // Função para abrir o anexo
   const handleViewAnexo = (fileName: string) => {
     window.open(`${UPLOADS_URL}/${fileName}`, '_blank');
   };
 
   return (
     <div className={styles.container}>
-      {/* Conteúdo Principal */}
       <div className={styles.mainContent}>
         <section className={styles.section}>
           <h3 className={styles.sectionTitle}>Detalhes da atividade</h3>
-          <InfoBlock label="Data da atividade" value={new Date(activity.date).toLocaleDateString('pt-BR')} />
-          <InfoBlock label="Propriedade associada" value={activity.propriedade} />
+          <InfoBlock label="Data da atividade" value={new Date(activity.date).toLocaleDateString('pt-BR')} icon={<BsCalendar4Event color='#006a35' />}/>
+          <InfoBlock label="Propriedade associada" value={activity.propriedade} icon={<RiHome8Line color='#006a35' size={18} />} />
           
           <div className={styles.infoBlock}>
-            <span className={styles.infoLabel}>Tipo de atividade</span>
-            <div style={{ marginTop: '4px' }}>
+            <InfoBlock label="Tipo de atividade" element={
               <TagToggle
                 color={getTagColor(activity.tipo)}
                 isActive={true}
@@ -83,14 +73,13 @@ export function ActivityDetailsDrawer({ activity, onDelete }: Props) {
               >
                 {activity.tipo}
               </TagToggle>
-            </div>
+            } />
           </div>
           
           <InfoBlock label="Descrição" value={activity.descricao} />
           <InfoBlock label="Responsável" value={activity.responsavel} />
         </section>
 
-        {/* Seção de Insumos (Condicional) */}
         {activity.insumoNome && (
           <section className={styles.section}>
             <h3 className={styles.sectionTitle}>Insumos Utilizados</h3>
@@ -102,7 +91,6 @@ export function ActivityDetailsDrawer({ activity, onDelete }: Props) {
           </section>
         )}
 
-        {/* Seção de Anexos */}
         <section className={styles.section}>
           <h3 className={styles.sectionTitle}>Anexos</h3>
           
@@ -128,7 +116,6 @@ export function ActivityDetailsDrawer({ activity, onDelete }: Props) {
         </section>
       </div>
 
-      {/* Rodapé */}
       <footer className={styles.footer}>
         <Button variant="tertiary" leftIcon={<FiTrash2 />} onClick={() => setIsDeleteModalOpen(true)}>
           Excluir
@@ -138,7 +125,6 @@ export function ActivityDetailsDrawer({ activity, onDelete }: Props) {
         </Button>
       </footer>
 
-      {/* Modal */}
       <ConfirmationModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}

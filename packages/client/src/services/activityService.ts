@@ -1,7 +1,6 @@
 // src/services/activityService.ts
 import { apiClient } from '../config/api.client';
 
-// Tipo simplificado baseado no seu form de Atividades
 export interface ActivityDTO {
   id?: number;
   date: string;
@@ -9,15 +8,13 @@ export interface ActivityDTO {
   tipo: string;
   descricao: string;
   responsavel: string;
-  files?: File[]; // Array de arquivos reais do input
+  files?: File[];
   removedFiles?: string[];
 }
 
-// Função auxiliar para converter Objeto JS -> FormData
 const createFormData = (data: ActivityDTO) => {
   const formData = new FormData();
 
-  // Adiciona campos de texto
   formData.append('date', data.date);
   formData.append('propriedade', data.propriedade);
   formData.append('tipo', data.tipo);
