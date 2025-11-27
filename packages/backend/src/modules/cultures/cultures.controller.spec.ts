@@ -40,16 +40,28 @@ describe('CulturesController', () => {
       // Arrange
       const createCultureDto: CreateCultureDto = {
         propertyId: 'property-123',
+        cultureName: 'Milho Verde',
+        cultivar: 'AG 1051',
         cycle: 120,
         origin: CultureOrigin.ORGANIC,
+        supplier: 'Sementes Brasil Ltda',
+        plantingDate: '2025-07-12',
+        plantingArea: 25.5,
+        observations: 'Plantio de teste',
       };
       const mockUser = { id: 'user-123' } as User;
       const mockResult = {
         id: 'culture-456',
         propertyId: 'property-123',
+        cultureName: 'Milho Verde',
+        cultivar: 'AG 1051',
         userId: 'user-123',
         cycle: 120,
         origin: CultureOrigin.ORGANIC,
+        supplier: 'Sementes Brasil Ltda',
+        plantingDate: new Date('2025-07-12'),
+        plantingArea: 25.5,
+        observations: 'Plantio de teste',
         property: {
           id: 'property-123',
           name: 'Fazenda Teste',
@@ -165,9 +177,15 @@ describe('CulturesController', () => {
       const mockCulture = {
         id: cultureId,
         propertyId: 'property-123',
+        cultureName: 'Milho Verde',
+        cultivar: 'AG 1051',
         userId: mockUser.id,
         cycle: 90,
         origin: CultureOrigin.CONVENTIONAL,
+        supplier: 'Fornecedor XYZ',
+        plantingDate: new Date('2025-04-20'),
+        plantingArea: 18.0,
+        observations: null,
         property: {
           id: 'property-123',
           name: 'Fazenda Teste',

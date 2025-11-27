@@ -58,8 +58,14 @@ describe('CulturesService', () => {
     const propertyId = 'property-456';
     const createCultureDto: CreateCultureDto = {
       propertyId,
+      cultureName: 'Tomate Cereja',
+      cultivar: 'Sweet 100',
       cycle: 120,
       origin: CultureOrigin.ORGANIC,
+      supplier: 'Sementes Brasil Ltda',
+      plantingDate: '2025-07-12',
+      plantingArea: 25.5,
+      observations: 'Plantio de teste',
     };
 
     it('deve criar uma cultura com sucesso quando a propriedade pertence ao usuário', async () => {
@@ -77,6 +83,10 @@ describe('CulturesService', () => {
         userId,
         cycle: 120,
         origin: CultureOrigin.ORGANIC,
+        supplier: 'Sementes Brasil Ltda',
+        plantingDate: new Date('2025-07-12'),
+        plantingArea: 25.5,
+        observations: 'Plantio de teste',
         isActive: true,
       };
 
@@ -99,8 +109,14 @@ describe('CulturesService', () => {
       });
       expect(mockCulturesRepository.create).toHaveBeenCalledWith({
         propertyId,
+        cultureName: 'Tomate Cereja',
+        cultivar: 'Sweet 100',
         cycle: 120,
         origin: CultureOrigin.ORGANIC,
+        supplier: 'Sementes Brasil Ltda',
+        plantingDate: '2025-07-12',
+        plantingArea: 25.5,
+        observations: 'Plantio de teste',
         userId,
       });
       expect(mockCulturesRepository.save).toHaveBeenCalledWith(mockCulture);
@@ -226,9 +242,15 @@ describe('CulturesService', () => {
         {
           id: 'culture-1',
           propertyId: 'prop-1',
+        cultureName: 'Tomate Cereja',
+        cultivar: 'Sweet 100',
           userId,
           cycle: 90,
           origin: CultureOrigin.CONVENTIONAL,
+          supplier: 'Fornecedor XYZ',
+          plantingDate: new Date('2025-03-15'),
+          plantingArea: 15.75,
+          observations: null,
           isActive: true,
           property: { id: 'prop-1', name: 'Fazenda A' },
           createdAt: new Date(),
@@ -266,9 +288,15 @@ describe('CulturesService', () => {
       const mockCulture = {
         id: cultureId,
         propertyId: 'prop-1',
+        cultureName: 'Tomate Cereja',
+        cultivar: 'Sweet 100',
         userId,
         cycle: 100,
         origin: CultureOrigin.TRANSGENIC,
+        supplier: 'Agro Seeds Inc',
+        plantingDate: new Date('2025-05-20'),
+        plantingArea: 50.0,
+        observations: 'Cultura em teste',
         isActive: true,
         property: { id: 'prop-1', name: 'Fazenda A' },
       };
@@ -310,6 +338,10 @@ describe('CulturesService', () => {
         userId: 'outro-usuario-999',
         cycle: 100,
         origin: CultureOrigin.ORGANIC,
+        supplier: 'Fornecedor ABC',
+        plantingDate: new Date('2025-06-10'),
+        plantingArea: 30.25,
+        observations: 'Observação',
         isActive: true,
       };
 

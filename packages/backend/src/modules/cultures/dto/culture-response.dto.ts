@@ -4,8 +4,14 @@ export class CultureResponseDto {
   id: string;
   propertyId: string;
   userId: string;
+  cultureName: string;
+  cultivar: string;
   cycle: number;
   origin: CultureOrigin;
+  supplier: string;
+  plantingDate: Date;
+  plantingArea: number;
+  observations?: string;
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;

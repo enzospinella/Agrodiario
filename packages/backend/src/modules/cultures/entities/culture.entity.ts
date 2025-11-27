@@ -22,6 +22,14 @@ export class Culture extends BaseEntity {
   @Column({ type: 'uuid' })
   userId: string;
 
+  // Culture name (free text given by owner)
+  @Column({ type: 'varchar', length: 255 })
+  cultureName: string;
+
+  // Cultivar/variety name (will be populated from Wikidata API)
+  @Column({ type: 'varchar', length: 255 })
+  cultivar: string;
+
   // Culture cycle in days
   @Column({ type: 'integer' })
   cycle: number;
@@ -32,6 +40,22 @@ export class Culture extends BaseEntity {
     enum: CultureOrigin,
   })
   origin: CultureOrigin;
+
+  // Seed supplier/company name
+  @Column({ type: 'varchar', length: 255 })
+  supplier: string;
+
+  // Planting date (planned or actual)
+  @Column({ type: 'date' })
+  plantingDate: Date;
+
+  // Planting area in hectares
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  plantingArea: number;
+
+  // Additional observations (optional)
+  @Column({ type: 'text', nullable: true })
+  observations: string;
 
   @Column({ type: 'boolean', default: true })
   isActive: boolean;
