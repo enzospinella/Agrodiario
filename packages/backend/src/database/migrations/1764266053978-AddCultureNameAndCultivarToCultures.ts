@@ -7,7 +7,7 @@ export class AddCultureNameAndCultivarToCultures1764266053978
     await queryRunner.addColumn(
       'cultures',
       new TableColumn({
-        name: 'cultureName',
+        name: 'culture-name',
         type: 'varchar',
         length: '255',
         isNullable: false,
@@ -27,6 +27,6 @@ export class AddCultureNameAndCultivarToCultures1764266053978
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropColumn('cultures', 'cultivar');
-    await queryRunner.dropColumn('cultures', 'cultureName');
+    await queryRunner.dropColumn('cultures', 'culture-name');
   }
 }
