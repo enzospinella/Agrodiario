@@ -16,10 +16,6 @@ describe('CreateCultureDto', () => {
       dto.plantingDate = '2025-07-12';
       dto.plantingArea = 25.5;
       dto.observations = 'Teste';
-      dto.supplier = 'Sementes Brasil Ltda';
-      dto.plantingDate = '2025-07-12';
-      dto.plantingArea = 25.5;
-      dto.observations = 'Teste';
 
       // Act
       const errors = await validate(dto);
