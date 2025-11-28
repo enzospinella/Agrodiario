@@ -9,7 +9,6 @@ export default function NewActivity() {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleCreate = async (data: ActivityFormData, files: File[]) => {
-    console.log('Criando atividade com dados:', data, 'e arquivos:', files);
     try {
       setIsLoading(true);
 

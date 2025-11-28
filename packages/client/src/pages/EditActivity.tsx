@@ -39,7 +39,6 @@ export default function EditActivity() {
     try {
       setIsSaving(true);
 
-      console.log('Enviando para API:', { data, filesCount: files.length, removedFiles }); 
 
       await activityService.update(id, {
         ...data,

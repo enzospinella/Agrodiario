@@ -92,7 +92,6 @@ export class ActivityService {
           
           if (fs.existsSync(filePath)) {
             fs.unlinkSync(filePath); 
-            console.log(`Arquivo deletado: ${filename}`);
           }
         });
       } catch (error) {

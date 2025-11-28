@@ -72,7 +72,6 @@ export class EmbrapaService {
         const options = [];
 
         for (const item of response.data) {
-            console.log(item.marca_comercial[0]);
             if (!uniqueBrands.has(item.marca_comercial[0])) {
             uniqueBrands.add(item.marca_comercial[0]);
             options.push({

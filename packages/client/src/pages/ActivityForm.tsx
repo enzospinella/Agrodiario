@@ -147,7 +147,6 @@ export function ActivityForm({ initialData, onSubmit, isLoading = false }: Props
       setIsLoadingInsumos(true);
       try {
         const response = await apiClient.get('/embrapa/insumos');
-        console.log("Insumos Embrapa carregados:", response.data);
         setInsumoOptions(response.data);
       } catch (error) {
         console.error("Erro ao carregar insumos Embrapa (usando fallback):", error);
