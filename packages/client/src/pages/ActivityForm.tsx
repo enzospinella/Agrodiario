@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './ActivityForm.module.css';
 
-// Imports de componentes e ícones
 import { Input } from '../components/common/Input/Input';
 import { Button } from '../components/common/Button/Button';
 import { TagToggle } from '../components/common/TagToggle/TagToggle';
@@ -18,8 +17,9 @@ import {
 } from 'react-icons/fi';
 import { IoIosArrowDown } from 'react-icons/io';
 
-// Importe a URL base para exibir imagens do servidor
 import { UPLOADS_URL } from '../config/api.client';
+import { apiClient } from '../config/api.client';
+import { SearchableSelect } from '@/components/common/SearchableSelect/SearchableSelect';
 
 // Tipos
 export type ActivityFormData = {
@@ -36,6 +36,11 @@ export type ActivityFormData = {
   anexos?: string[]; 
 };
 
+type EmbrapaInput = {
+  id: string;
+  marcaComercial: string;
+};
+
 type Props = {
   initialData?: Partial<ActivityFormData>;
   onSubmit: (data: ActivityFormData, newFiles: File[], removedFiles: string[]) => void;
@@ -47,13 +52,6 @@ const mockProperties = [
   { label: 'Fazenda Santa Fé', value: 'Fazenda Santa Fé' },
   { label: 'Rancho Fundo', value: 'Rancho Fundo' },
   { label: 'Chácara do Sol', value: 'Chácara do Sol' },
-];
-
-const mockInsumos = [
-  { label: 'Fertilizante NPK 10-10-10', value: 'Fertilizante NPK 10-10-10' },
-  { label: 'Calcário Dolomítico', value: 'Calcário Dolomítico' },
-  { label: 'Ureia Agrícola', value: 'Ureia Agrícola' },
-  { label: 'Herbicida Glifosato', value: 'Herbicida Glifosato' },
 ];
 
 const mockUnidades = [
@@ -81,6 +79,9 @@ export function ActivityForm({ initialData, onSubmit, isLoading = false }: Props
   });
 
   const [showInsumos, setShowInsumos] = useState(!!initialData?.insumoNome);
+  const [insumoOptions, setInsumoOptions] = useState<{label: string, value: string}[]>([]);
+  const [isLoadingInsumos, setIsLoadingInsumos] = useState(false);
+
   const [isValid, setIsValid] = useState(false);
 
   const [newFiles, setNewFiles] = useState<File[]>([]);
@@ -141,6 +142,29 @@ export function ActivityForm({ initialData, onSubmit, isLoading = false }: Props
     setIsValid(isBasicInfoValid && isInsumoValid);
   }, [formData, showInsumos]);
 
+  useEffect(() => {
+    async function fetchEmbrapaInputs() {
+      setIsLoadingInsumos(true);
+      try {
+        const response = await apiClient.get('/embrapa/insumos');
+        console.log("Insumos Embrapa carregados:", response.data);
+        setInsumoOptions(response.data);
+      } catch (error) {
+        console.error("Erro ao carregar insumos Embrapa (usando fallback):", error);
+        
+        setInsumoOptions([
+          { label: 'Fertilizante NPK 10-10-10 (Offline)', value: 'Fertilizante NPK 10-10-10' },
+          { label: 'Glifosato (Offline)', value: 'Glifosato' },
+          { label: 'Inseticida Cipermetrina (Offline)', value: 'Inseticida Cipermetrina' },
+        ]);
+      } finally {
+        setIsLoadingInsumos(false);
+      }
+    }
+
+    fetchEmbrapaInputs();
+  }, []);
+
   const title = isEditMode ? 'Editar atividade' : 'Nova atividade';
   const submitText = isEditMode ? 'Salvar alterações' : 'Salvar atividade';
 
@@ -195,7 +219,14 @@ export function ActivityForm({ initialData, onSubmit, isLoading = false }: Props
            </div>
            {showInsumos && (
             <div className={styles.insumoFields}>
-              <Input as="select" label="Nome do produto/insumo utilizado" name="insumoNome" value={formData.insumoNome} onChange={handleChange} options={mockInsumos} icon={<IoIosArrowDown size={18} />} />
+              <SearchableSelect
+                label="Nome do produto/insumo"
+                placeholder="Digite para buscar na Embrapa..."
+                value={formData.insumoNome}
+                onChange={(newValue) => 
+                  setFormData(prev => ({ ...prev, insumoNome: newValue }))
+                }
+              />
               <div className={styles.fieldGroup}>
                 <Input label="Quantidade utilizada" name="insumoQuantidade" value={formData.insumoQuantidade} onChange={handleChange} />
                 <Input as="select" label="Unidade" name="insumoUnidade" value={formData.insumoUnidade} onChange={handleChange} options={mockUnidades} icon={<IoIosArrowDown size={18} />} />

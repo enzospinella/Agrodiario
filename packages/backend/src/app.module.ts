@@ -9,6 +9,7 @@ import { validationSchema } from '@config/validation.schema';
 import { UsersModule } from '@modules/users/users.module';
 import { AuthModule } from '@modules/auth/auth.module';
 import { ActivityModule } from './modules/activities/activities.module';
+import { EmbrapaModule } from './embrapa/embrapa.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { ActivityModule } from './modules/activities/activities.module';
     UsersModule,
     AuthModule,
     ActivityModule,
+    EmbrapaModule
   ],
   controllers: [AppController],
   providers: [AppService],
