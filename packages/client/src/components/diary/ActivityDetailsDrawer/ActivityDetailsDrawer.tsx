@@ -26,7 +26,6 @@ type Activity = {
 
 type Props = {
   activity: Activity;
-  onEdit?: () => void; 
   onDelete: () => void;
 };
 

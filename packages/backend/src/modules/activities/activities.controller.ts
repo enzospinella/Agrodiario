@@ -1,7 +1,12 @@
 import { 
   Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, 
-  UseInterceptors, UploadedFiles 
+  UseInterceptors, UploadedFiles, 
+  Query,
+  DefaultValuePipe,
+  UseGuards,
+  Req
 } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { ActivityService } from './activities.service';
 import { CreateActivityDto } from './dto/create-activity.dto';
@@ -32,6 +37,7 @@ const multerOptions = {
   }),
 };
 
+@UseGuards(JwtAuthGuard)
 @Controller('activities')
 export class ActivityController {
   constructor(private readonly activityService: ActivityService) {}
@@ -41,18 +47,28 @@ export class ActivityController {
   create(
     @Body() createActivityDto: CreateActivityDto,
     @UploadedFiles() files: Array<Express.Multer.File>,
+    @Req() req: any,
   ) {
-    return this.activityService.create(createActivityDto, files);
+    const userId = req.user.id;
+    return this.activityService.create(createActivityDto, userId, files);
   }
 
   @Get()
-  findAll() {
-    return this.activityService.findAll();
+  findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
+    @Query('order') order: string, 
+    @Req() req: any,
+    @Query('search') search?: string,
+  ) {
+    const sortOrder = order?.toUpperCase() === 'ASC' ? 'ASC' : 'DESC';
+    const userId = req.user.id;
+    return this.activityService.findAll(page, limit, sortOrder, search, userId);
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.activityService.findOne(id);
+  findOne(@Param('id', ParseIntPipe) id: number, @Req() req: any) {
+    return this.activityService.findOne(id, req.user.id);
   }
 
   @Patch(':id')
@@ -61,12 +77,13 @@ export class ActivityController {
     @Param('id', ParseIntPipe) id: number, 
     @Body() updateActivityDto: UpdateActivityDto,
     @UploadedFiles() files: Array<Express.Multer.File>,
+    @Req() req: any,
   ) {
-    return this.activityService.update(id, updateActivityDto, files);
+    return this.activityService.update(id, updateActivityDto, req.user.id, files);
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.activityService.remove(id);
+  remove(@Param('id', ParseIntPipe) id: number, @Req() req: any) {
+    return this.activityService.remove(id, req.user.id);
   }
 }

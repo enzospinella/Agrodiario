@@ -1,7 +1,7 @@
 // src/activities/activity.service.ts
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Brackets, ILike, Repository } from 'typeorm';
 import { Activity } from './entities/activity.entity';
 import { CreateActivityDto } from './dto/create-activity.dto';
 import { UpdateActivityDto } from './dto/update-activity.dto';
@@ -16,37 +16,55 @@ export class ActivityService {
   ) {}
 
   async create(
-    createActivityDto: CreateActivityDto, 
+    createActivityDto: CreateActivityDto,
+    userId: number, 
     files: Array<Express.Multer.File> = []
   ): Promise<Activity> {
-
-    console.log('--- DEBUG SERVICE ---');
-    if (files && files.length > 0) {
-      console.log('Primeiro arquivo recebido:', files[0]);
-      console.log('Tem propriedade filename?', 'filename' in files[0]);
-      console.log('Valor de filename:', files[0].filename);
-    } else {
-      console.log('Nenhum arquivo recebido no Service');
-    }
     
     const fileNames = files ? files.map(file => file.filename) : [];
-
-    console.log('Nomes para salvar no banco:', fileNames);
 
     const newActivity = this.activityRepository.create({
       ...createActivityDto,
       anexos: fileNames,
+      userId: userId,
     });
 
     return await this.activityRepository.save(newActivity);
   }
 
-  async findAll(): Promise<Activity[]> {
-    return await this.activityRepository.find({ order: { date: 'DESC' } });
+  async findAll(
+    page: number = 1, 
+    limit: number = 10, 
+    order: 'ASC' | 'DESC' = 'DESC',
+    search?: string,
+    userId?: number,
+  ): Promise<{ data: Activity[], total: number }> {
+    
+    const skip = (page - 1) * limit;
+
+    const query = this.activityRepository.createQueryBuilder('activity');
+    query.where('activity.userId = :userId', { userId });
+
+    if (search && search.trim().length > 0) {
+      query.andWhere(
+        new Brackets((qb) => {
+          qb.where('activity.titulo ILIKE :search', { search: `%${search}%` })
+            .orWhere('activity.descricao ILIKE :search', { search: `%${search}%` })
+            .orWhere('activity.propriedade ILIKE :search', { search: `%${search}%` })
+            .orWhere('activity.insumoNome ILIKE :search', { search: `%${search}%` });
+        }),
+      );
+    }
+
+    query.orderBy('activity.date', order);
+    query.skip(skip).take(limit);
+
+    const [data, total] = await query.getManyAndCount();
+    return { data, total };
   }
 
-  async findOne(id: number): Promise<Activity> {
-    const activity = await this.activityRepository.findOne({ where: { id } });
+  async findOne(id: number, userId: number): Promise<Activity> {
+    const activity = await this.activityRepository.findOne({ where: { id, userId } });
     if (!activity) {
       throw new NotFoundException(`Atividade com ID ${id} não encontrada.`);
     }
@@ -56,9 +74,10 @@ export class ActivityService {
   async update(
     id: number, 
     updateActivityDto: UpdateActivityDto,
+    userId: number,
     files: Array<Express.Multer.File> = []
   ): Promise<Activity> {
-    const activity = await this.findOne(id);
+    const activity = await this.findOne(id, userId);
 
     let currentAnexos = activity.anexos || [];
 
@@ -95,8 +114,8 @@ export class ActivityService {
     return await this.activityRepository.save(updatedActivity);
   }
 
-  async remove(id: number): Promise<void> {
-    const activity = await this.findOne(id);
+  async remove(id: number, userId: number): Promise<void> {
+    const activity = await this.findOne(id, userId);
 
     if (activity.anexos && activity.anexos.length > 0) {
       activity.anexos.forEach(filename => {

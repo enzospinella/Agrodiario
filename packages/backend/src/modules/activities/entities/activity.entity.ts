@@ -1,5 +1,6 @@
 // src/activities/entities/activity.entity.ts
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 
 export enum ActivityType {
   PREPARO = 'preparo',
@@ -12,6 +13,16 @@ export enum ActivityType {
 export class Activity {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @ManyToOne(() => User, (user) => user.activities, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'userId' })
+  user: User;
+
+  @Column()
+  userId: number;
+
+  @Column({ nullable: true })
+  titulo: string;
 
   @Column({ type: 'date' })
   date: Date; 
@@ -28,6 +39,9 @@ export class Activity {
 
   @Column({ type: 'text', nullable: true })
   descricao: string;
+
+  @Column({ nullable: true })
+  operacao: string;
 
   @Column()
   responsavel: string;

@@ -24,20 +24,20 @@ import { UPLOADS_URL } from '../config/api.client';
 // Tipos
 export type ActivityFormData = {
   date: string;
+  titulo: string;
   propriedade: string;
   tipo: 'preparo' | 'aplicacao' | 'colheita' | 'manejo';
   descricao: string;
+  operacao: string;
   responsavel: string;
   insumoNome?: string;
   insumoQuantidade?: string;
   insumoUnidade?: string;
-  // Adicionamos o campo para receber os nomes dos arquivos existentes do backend
   anexos?: string[]; 
 };
 
 type Props = {
   initialData?: Partial<ActivityFormData>;
-  // onSubmit agora recebe também a lista de arquivos a serem removidos do servidor
   onSubmit: (data: ActivityFormData, newFiles: File[], removedFiles: string[]) => void;
   isLoading?: boolean;
 };
@@ -67,10 +67,12 @@ export function ActivityForm({ initialData, onSubmit, isLoading = false }: Props
   const isEditMode = !!initialData;
 
   const [formData, setFormData] = useState<ActivityFormData>({
+    titulo: initialData?.titulo || '',
     date: initialData?.date || '',
     propriedade: initialData?.propriedade || '',
     tipo: initialData?.tipo || 'preparo',
     descricao: initialData?.descricao || '',
+    operacao: initialData?.operacao || '',
     responsavel: initialData?.responsavel || '',
     insumoNome: initialData?.insumoNome || '',
     insumoQuantidade: initialData?.insumoQuantidade || '',
@@ -81,40 +83,30 @@ export function ActivityForm({ initialData, onSubmit, isLoading = false }: Props
   const [showInsumos, setShowInsumos] = useState(!!initialData?.insumoNome);
   const [isValid, setIsValid] = useState(false);
 
-  // --- GERENCIAMENTO DE ARQUIVOS ---
-  
-  // 1. Arquivos NOVOS (File Objects) selecionados agora
   const [newFiles, setNewFiles] = useState<File[]>([]);
   
-  // 2. Arquivos EXISTENTES (Strings) que vieram do banco
   const [existingFiles, setExistingFiles] = useState<string[]>(initialData?.anexos || []);
   
-  // 3. Arquivos REMOVIDOS (Strings) para avisar o backend o que deletar
   const [removedFiles, setRemovedFiles] = useState<string[]>([]);
 
-  // --- HANDLERS ---
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-  // ... (outros handlers de tipo e insumo permanecem iguais) ...
   const handleTypeChange = (type: any) => setFormData(prev => ({ ...prev, tipo: type }));
   const handleInsumoOption = (show: boolean) => {
     setShowInsumos(show);
     if(!show) setFormData(prev => ({ ...prev, insumoNome: '', insumoQuantidade: '', insumoUnidade: '' }));
   };
 
-  // Adicionar novos arquivos
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const filesArray = Array.from(e.target.files);
-      // Adiciona aos novos sem perder os que já foram selecionados nesta sessão
       setNewFiles((prev) => [...prev, ...filesArray]);
     }
   };
 
-  // Remover arquivo (funciona tanto para novos quanto para existentes)
   const handleRemoveFile = (index: number, type: 'new' | 'existing') => {
     if (type === 'new') {
       setNewFiles((prev) => prev.filter((_, i) => i !== index));
@@ -125,13 +117,10 @@ export function ActivityForm({ initialData, onSubmit, isLoading = false }: Props
     }
   };
 
-  // Visualizar arquivo (abre em nova aba)
   const handleViewFile = (file: File | string) => {
     if (typeof file === 'string') {
-      // Arquivo existente: abre URL do backend
       window.open(`${UPLOADS_URL}/${file}`, '_blank');
     } else {
-      // Arquivo novo: cria URL temporária local
       const url = URL.createObjectURL(file);
       window.open(url, '_blank');
     }
@@ -140,11 +129,9 @@ export function ActivityForm({ initialData, onSubmit, isLoading = false }: Props
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!isValid) return;
-    // Envia dados, arquivos novos E a lista de arquivos antigos para remover
     onSubmit({ ...formData, anexos: existingFiles }, newFiles, removedFiles);
   };
 
-  // ... (useEffect de validação permanece igual) ...
   useEffect(() => {
     const isBasicInfoValid = formData.date.trim() !== '' && formData.propriedade.trim() !== '' && formData.descricao.trim() !== '' && formData.responsavel.trim() !== '';
     let isInsumoValid = true;
@@ -167,11 +154,17 @@ export function ActivityForm({ initialData, onSubmit, isLoading = false }: Props
       </header>
 
       <form className={styles.form} onSubmit={handleSubmit}>
-        {/* ... (Seções Detalhes, Tipo e Insumo - CÓDIGO IGUAL AO ANTERIOR) ... */}
          <div className={styles.section}>
           <h3 className={styles.sectionTitle}>Detalhes da atividade</h3>
+          <Input
+            label="Título da atividade"
+            name="titulo"
+            value={formData.titulo}
+            onChange={handleChange}
+            placeholder="Ex: Adubação do talhão 1"
+          />
           <div className={styles.fieldGroup}>
-            <Input label="Data da atividade" name="date" type="date" value={formData.date} onChange={handleChange} icon={<FiCalendar size={18} />} />
+            <Input label="Data da atividade" name="date" type="date" value={formData.date} onChange={handleChange} />
             <Input as="select" label="Propriedade associada" name="propriedade" value={formData.propriedade} onChange={handleChange} options={mockProperties} icon={<IoIosArrowDown size={18} />} />
           </div>
         </div>
@@ -184,6 +177,12 @@ export function ActivityForm({ initialData, onSubmit, isLoading = false }: Props
              <TagToggle color="green" isActive={formData.tipo === 'colheita'} onClick={() => handleTypeChange('colheita')} type="button">Colheita</TagToggle>
              <TagToggle color="orange" isActive={formData.tipo === 'manejo'} onClick={() => handleTypeChange('manejo')} type="button">Manejo de solo</TagToggle>
           </div>
+          <Input 
+             label="Detalhes da operação (Ex: Aragem no solo)" 
+             name="operacao" 
+             value={formData.operacao} 
+             onChange={handleChange} 
+           />
            <Input as="textarea" label="Descrição detalhada da atividade" name="descricao" value={formData.descricao} onChange={handleChange} rows={4} />
            <Input label="Responsável pela execução" name="responsavel" value={formData.responsavel} onChange={handleChange} />
          </div>
@@ -205,16 +204,13 @@ export function ActivityForm({ initialData, onSubmit, isLoading = false }: Props
           )}
         </div>
 
-        {/* --- SEÇÃO DE ANEXOS ATUALIZADA --- */}
         <div className={styles.section}>
           <h3 className={styles.sectionTitle}>Anexos</h3>
           <p className={styles.sectionSubtitle}>
             Você pode inserir fotos da plantação, notas fiscais, recibos.
           </p>
 
-          {/* Lista de Arquivos (Existentes + Novos) */}
           <div className={styles.fileList}>
-            {/* 1. Arquivos Existentes */}
             {existingFiles.map((fileName, index) => (
               <div key={`existing-${index}`} className={styles.fileItem}>
                 <span className={styles.fileName}>{fileName}</span>
@@ -229,7 +225,6 @@ export function ActivityForm({ initialData, onSubmit, isLoading = false }: Props
               </div>
             ))}
 
-            {/* 2. Arquivos Novos */}
             {newFiles.map((file, index) => (
               <div key={`new-${index}`} className={styles.fileItem}>
                 <span className={styles.fileName}>{file.name} (Novo)</span>

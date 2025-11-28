@@ -4,6 +4,10 @@ import { ActivityType } from '../entities/activity.entity';
 import { Type } from 'class-transformer';
 
 export class CreateActivityDto {
+  @IsString()
+  @IsNotEmpty() 
+  titulo: string;
+
   @IsDateString()
   @IsNotEmpty()
   date: string;
@@ -19,6 +23,10 @@ export class CreateActivityDto {
   @IsString()
   @IsOptional()
   descricao?: string;
+
+  @IsString()
+  @IsOptional()
+  operacao: string;
 
   @IsString()
   @IsNotEmpty()
