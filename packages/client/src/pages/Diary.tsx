@@ -235,7 +235,7 @@ export default function DiaryPage() {
 
       {/* 4. Rodapé (Carregar mais) */}
       <footer className={styles.footer}>
-        <Button variant="quaternary" style={{ width: '15%', borderRadius: '32px', border: '1px solid rgba(0, 0, 0, 0.5)' }}>Carregar mais</Button>
+        <Button variant="outlined">Carregar mais</Button>
       </footer>
 
       <Drawer

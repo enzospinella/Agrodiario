@@ -210,7 +210,7 @@ export default function PropertiesPage() {
 
       {/* (Opcional) Rodapé (Carregar mais) */}
       <footer className={styles.footer}>
-        <Button variant="quaternary">Carregar mais</Button>
+        <Button variant="outlined">Carregar mais</Button>
       </footer>
 
       <Drawer
