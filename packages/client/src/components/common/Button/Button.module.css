@@ -1,7 +1,6 @@
 /* src/components/common/Button/Button.module.css */
 .button {
-    width: 100%;
-    
+    width: auto;
     color: var(--color-text-on-primary);
     background-color: var(--color-primary);
     border: none;
@@ -12,24 +11,6 @@
     justify-content: center;
     gap: 0.5rem; /* Espaço entre ícone e texto */
     padding: 12px 20px;/* src/components/common/Button/Button.module.css */
-.button {
-    width: 100%;
-    
-    color: var(--color-text-on-primary);
-    background-color: var(--color-primary);
-    border: none;
-    border-radius: var(--border-radius-button); 
-    transition: background-color 0.2s ease, opacity 0.2s ease;
-    display: inline-flex; /* Alinha o ícone com o texto */
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem; /* Espaço entre ícone e texto */
-    padding: 12px 20px;
-    font-size: 0.95rem; /* Ajuste fino */
-    font-weight: 600;
-    border: none;
-    cursor: pointer;
-  }
 
   .icon {
     display: flex; /* Garante que o ícone fique centralizado */

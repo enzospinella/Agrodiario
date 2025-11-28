@@ -20,6 +20,9 @@
   --color-text-secondary: #475467; /* Subtítulos */
   --color-text-placeholder: #667085;/* Placeholders */
   --color-text-on-primary: #FFFFFF;  /* Texto sobre botão verde */
+  --color-text-on-surface: #181D18;
+  --color-text-on-surface-variant: #424941;
+  --color-text-on-primary-container: #1D5128;
   
   /* Cores de Fundo */
   --color-bg-light: #f7f9f7;   /* Fundo da página (verde claro) */
