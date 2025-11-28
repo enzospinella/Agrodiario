@@ -43,6 +43,7 @@ export default function EditActivity() {
 
       await activityService.update(id, {
         ...data,
+        insumoQuantidade: data.insumoQuantidade ? parseFloat(data.insumoQuantidade) : undefined,
         files: files,          
         removedFiles: removedFiles, 
       });

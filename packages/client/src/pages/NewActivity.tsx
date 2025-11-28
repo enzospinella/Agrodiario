@@ -15,6 +15,7 @@ export default function NewActivity() {
 
       await activityService.create({
         ...data,
+        insumoQuantidade: data.insumoQuantidade ? parseFloat(data.insumoQuantidade) : undefined,
         files: files,
       });
 
