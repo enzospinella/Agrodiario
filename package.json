@@ -2,9 +2,15 @@
   "name": "agrodiario",
   "version": "1.0.0",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/translate-google",
+      "**/translate-google/**"
+    ]
+  },
   "scripts": {
     "client": "yarn workspace @agrodiario/client",
     "backend": "yarn workspace @agrodiario/backend",
