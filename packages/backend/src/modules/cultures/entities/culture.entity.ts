@@ -9,7 +9,7 @@ import { CultureOrigin } from '../enums/culture-origin.enum';
 export class Culture extends BaseEntity {
   // Relationship to Property
   @ManyToOne(() => Property, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'property_id' })
+  @JoinColumn({ name: 'propertyId' })
   property: Property;
 
   @Column({ type: 'uuid' })
@@ -17,7 +17,7 @@ export class Culture extends BaseEntity {
 
   // Relationship to User (owner)
   @ManyToOne(() => User, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'user_id' })
+  @JoinColumn({ name: 'userId' })
   user: User;
 
   @Column({ type: 'uuid' })

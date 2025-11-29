@@ -32,11 +32,25 @@ export class CulturesController {
   }
 
   @Get()
-  findAll(@CurrentUser() user: User, @Query('page') page?: string, @Query('limit') limit?: string) {
-    const pageNumber = page ? parseInt(page, 10) : 1;
-    const limitNumber = limit ? parseInt(limit, 10) : 10;
+  async findAll(
+    @CurrentUser() user: User, 
+    @Query('page') page?: string, 
+    @Query('limit') limit?: string,
+    @Query('search') search?: string,
+    @Query('sortBy') sortBy?: string,
+    @Query('sortOrder') sortOrder?: 'ASC' | 'DESC',
+  ) {
+    const pageNumber = this.parsePositiveInteger(page, 1);
+    const limitNumber = this.parsePositiveInteger(limit, 10);
 
-    return this.culturesService.findAll(user.id, pageNumber, limitNumber);
+    return this.culturesService.findAll(
+      user.id,
+      pageNumber,
+      limitNumber,
+      search,
+      sortBy,
+      sortOrder,
+    );
   }
 
   @Get('properties')
@@ -47,7 +61,7 @@ export class CulturesController {
   @Get('search/crops')
   @HttpCode(HttpStatus.OK)
   async searchCrops(@Query('q') searchTerm?: string, @Query('limit') limit?: string) {
-    const limitNumber = limit ? parseInt(limit, 10) : 50;
+    const limitNumber = this.parsePositiveInteger(limit, 50);
     return this.plantsApiService.searchCrops(searchTerm, limitNumber);
   }
 
@@ -61,7 +75,17 @@ export class CulturesController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseUUIDPipe) id: string, @CurrentUser() user: User) {
+  async findOne(@Param('id', ParseUUIDPipe) id: string, @CurrentUser() user: User) {
     return this.culturesService.findOne(id, user.id);
+  }
+
+  /**
+   * Safely parses a string to a positive integer with a default fallback
+   */
+  private parsePositiveInteger(value: string | undefined, defaultValue: number): number {
+    if (!value) return defaultValue;
+    
+    const parsed = parseInt(value, 10);
+    return isNaN(parsed) || parsed < 1 ? defaultValue : parsed;
   }
 }
