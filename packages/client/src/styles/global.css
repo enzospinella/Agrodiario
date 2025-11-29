@@ -13,22 +13,33 @@
 :root {
   /* Cores Principais */
   --color-primary: #008542;
+  --color-primary-container: #B7F1BA;
   --color-primary-dark: #006a35;
+  --color-on-primary-container: #1D5128;
+  --color-on-surface-variant: #424941;
 
   /* Cores de Texto */
-  --color-text-primary: #101828;   /* Títulos escuros */
-  --color-text-secondary: #475467; /* Subtítulos */
-  --color-text-placeholder: #667085;/* Placeholders */
-  --color-text-on-primary: #FFFFFF;  /* Texto sobre botão verde */
-  
+  --color-text-primary: #101828;
+  /* Títulos escuros */
+  --color-text-secondary: #475467;
+  /* Subtítulos */
+  --color-text-placeholder: #667085;
+  /* Placeholders */
+  --color-text-on-primary: #FFFFFF;
+  /* Texto sobre botão verde */
+
   /* Cores de Fundo */
-  --color-bg-light: #f7f9f7;   /* Fundo da página (verde claro) */
-  --color-bg-white: #FFFFFF;   /* Fundo do card */
+  --color-bg-light: #f7f9f7;
+  /* Fundo da página (verde claro) */
+  --color-bg-white: #FFFFFF;
+  /* Fundo do card */
 
   /* Outras */
-  --color-border: #d0d5dd;     /* Bordas do input */
+  --color-border: #d0d5dd;
+  /* Bordas do input */
 
-  --color-icon: #36693E;    /* Ícones */
+  --color-icon: #36693E;
+  /* Ícones */
 
   /* Tipografia */
   --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -57,14 +68,14 @@ body {
 
   /* Para Firefox */
   scrollbar-width: none;
-  
+
   /* Para IE e Edge */
   -ms-overflow-style: none;
 }
 
 body::-webkit-scrollbar {
-    display: none;
-  }
+  display: none;
+}
 
 img,
 picture,
@@ -88,5 +99,5 @@ button,
 input,
 textarea,
 select {
-  font: inherit; 
+  font: inherit;
 }
