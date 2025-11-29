@@ -2,7 +2,6 @@
   width: 100%;
   min-height: 100vh;
   background-color: #f7fbf2;
-  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
