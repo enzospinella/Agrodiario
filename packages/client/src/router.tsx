@@ -6,7 +6,6 @@ import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { RootRedirector } from './components/RootRedirector';
 
 // Páginas
-import Landing from './pages/landing-page/Landing';
 import LoginPage from './pages/auth/Login';
 import RegisterPage from './pages/auth/Register';
 import HomePage from './pages/Home';
@@ -85,10 +84,7 @@ export const router = createBrowserRouter([
         path: 'cultures',
         element: <CulturesLayout />,
         children: [
-          { index: true, element: <CulturesPage /> },  // /app/cultures
-          // TODO: Add new and edit pages when ready
-          // { path: 'new', element: <NewCulture /> },
-          // { path: 'edit/:id', element: <EditCulture /> }
+          { index: true, element: <CulturesPage /> },
         ],
       },
 
