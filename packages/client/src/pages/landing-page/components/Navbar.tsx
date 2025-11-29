@@ -1,22 +1,49 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import styles from './Navbar.module.css';
 import logo from '@/assets/logo-grande.png';
 import { Button } from '@/components/common/Button/Button';
 
-type NavbarProps = {
-    activeSection?: 'inicio' | 'sobre' | 'quem-somos';
-    onNavigate?: (section: string) => void;
-};
-
-export function Navbar({ activeSection = 'inicio', onNavigate }: NavbarProps) {
+export function Navbar() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [currentSection, setCurrentSection] = useState<'inicio' | 'sobre' | 'quem-somos'>('inicio');
+
+    const navItems = [
+        { id: 'inicio', label: 'Início' },
+        { id: 'sobre', label: 'Sobre' },
+        { id: 'quem-somos', label: 'Quem somos' },
+        { id: 'parceiros', label: 'Parceiros' },
+
+    ];
+
+    // ScrollSpy com IntersectionObserver
+    useEffect(() => {
+        const sections = document.querySelectorAll('section[id]');
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setCurrentSection(entry.target.id as any);
+                    }
+                });
+            },
+            {
+                threshold: 0.55,
+            }
+        );
+
+        sections.forEach((sec) => observer.observe(sec));
+
+        return () => {
+            sections.forEach((sec) => observer.unobserve(sec));
+        };
+    }, []);
 
     const handleNavClick = (section: string) => {
-        onNavigate?.(section);
+        setCurrentSection(section as any);
         setMobileMenuOpen(false);
 
-        // Scroll suave para a seção
         const element = document.getElementById(section);
         if (element) {
             element.scrollIntoView({ behavior: 'smooth' });
@@ -24,20 +51,12 @@ export function Navbar({ activeSection = 'inicio', onNavigate }: NavbarProps) {
     };
 
     const handleSignup = () => {
-        // Redirecionar para página de autenticação
         window.location.href = '/register';
     };
 
     const handleLogin = () => {
-        // Redirecionar para página de login
         window.location.href = '/login';
     };
-
-    const navItems = [
-        { id: 'inicio', label: 'Início' },
-        { id: 'sobre', label: 'Sobre' },
-        { id: 'quem-somos', label: 'Quem somos' },
-    ];
 
     return (
         <>
@@ -55,7 +74,7 @@ export function Navbar({ activeSection = 'inicio', onNavigate }: NavbarProps) {
                         {navItems.map((item) => (
                             <button
                                 key={item.id}
-                                className={`${styles.navLink} ${activeSection === item.id ? styles.active : ''
+                                className={`${styles.navLink} ${currentSection === item.id ? styles.active : ''
                                     }`}
                                 onClick={() => handleNavClick(item.id)}
                             >
@@ -91,7 +110,7 @@ export function Navbar({ activeSection = 'inicio', onNavigate }: NavbarProps) {
                     {navItems.map((item) => (
                         <button
                             key={item.id}
-                            className={`${styles.mobileNavLink} ${activeSection === item.id ? styles.active : ''
+                            className={`${styles.mobileNavLink} ${currentSection === item.id ? styles.active : ''
                                 }`}
                             onClick={() => handleNavClick(item.id)}
                         >
