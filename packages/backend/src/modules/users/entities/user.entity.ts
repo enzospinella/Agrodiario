@@ -1,6 +1,7 @@
 import { Entity, Column, OneToMany } from 'typeorm';
 import { BaseEntity } from '../../../database/entities/base.entity';
 import { Activity } from '../../activities/entities/activity.entity';
+import { Property } from '../../properties/entities/property.entity';
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -45,4 +46,6 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Activity, (activity) => activity.user)
   activities: Activity[];
+  @OneToMany(() => Property, (property) => property.user)
+  properties: Property[];
 }

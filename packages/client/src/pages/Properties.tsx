@@ -8,9 +8,10 @@ import { FiSearch, FiDownload } from 'react-icons/fi';
 import { FaRegCalendarPlus } from 'react-icons/fa';
 import { MdArrowDropDown } from 'react-icons/md';
 import { Drawer } from '@/components/common/Drawer/Drawer';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Property } from '@/components/properties/PropertyDetailsDrawer/PropertyDetailsDrawer';
 import { PropertyDetailsDrawer } from '@/components/properties/PropertyDetailsDrawer/PropertyDetailsDrawer';
+import { propertyService } from '../services/property.service';
 
 const mockProperties = [
   {
@@ -76,10 +77,47 @@ const mockProperties = [
 ];
 
 export default function PropertiesPage() {
+    const [properties, setProperties] = useState<any[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Fetch properties from API
+    useEffect(() => {
+      const fetchProperties = async () => {
+        try {
+          setIsLoading(true);
+          const response = await propertyService.findAll(1, 100);
+
+          // Transform backend properties to match frontend format
+          const transformedProperties = response.data.map(prop => ({
+            id: prop.id,
+            name: prop.name,
+            location: prop.address.split(',').slice(-2).join(',').trim(), // Extract city/state from address
+            talhoes: [], // No talhoes in simplified version
+            cultivo: prop.mainCrop,
+            area: prop.productionArea,
+            address: prop.address,
+            areaTotal: prop.totalArea,
+            areaCultivada: prop.productionArea,
+            cultivoPrincipal: prop.mainCrop,
+          }));
+
+          setProperties(transformedProperties);
+        } catch (err: any) {
+          console.error('Erro ao carregar propriedades:', err);
+          setError(err.message || 'Erro ao carregar propriedades');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+      fetchProperties();
+    }, []);
+
     const handleSortNewest = () => {
         console.log('Ordenando por mais recentes');
       };
-    
+
       const handleSortOldest = () => {
         console.log('Ordenando por mais antigas');
       };
@@ -151,8 +189,13 @@ export default function PropertiesPage() {
       </div>
 
       <div className={styles.grid}>
-        {mockProperties.map((prop) => (
-          <PropertyCard key={prop.id} property={prop} 
+        {isLoading && <p>Carregando propriedades...</p>}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {!isLoading && !error && properties.length === 0 && (
+          <p>Nenhuma propriedade cadastrada. Crie sua primeira propriedade!</p>
+        )}
+        {!isLoading && !error && properties.map((prop) => (
+          <PropertyCard key={prop.id} property={prop}
           onView={() => handleViewProperty(prop)}/>
         ))}
       </div>

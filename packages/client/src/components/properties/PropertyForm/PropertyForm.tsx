@@ -1,5 +1,5 @@
 // src/components/properties/PropertyForm/PropertyForm.tsx
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Polygon, useMapEvents, FeatureGroup } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
@@ -47,6 +47,7 @@ export type PropertyFormData = {
 type Props = {
   initialData?: Partial<PropertyFormData>; // Opcional: usado na edição
   onSubmit: (data: PropertyFormData) => void;
+  isLoading?: boolean; // Loading state for submit button
 };
 
 // Componente auxiliar para capturar cliques no mapa
@@ -60,7 +61,7 @@ function LocationMarker({ position, setPosition }: any) {
   return position ? <Marker position={position} /> : null;
 }
 
-export function PropertyForm({ initialData, onSubmit }: Props) {
+export function PropertyForm({ initialData, onSubmit, isLoading = false }: Props) {
   const navigate = useNavigate();
   const isEditMode = !!initialData;
 
@@ -293,11 +294,11 @@ export function PropertyForm({ initialData, onSubmit }: Props) {
 
         {/* === RODAPÉ === */}
         <footer className={styles.footer}>
-          <Button variant="tertiary" type="button" onClick={() => navigate(-1)}>
+          <Button variant="tertiary" type="button" onClick={() => navigate(-1)} disabled={isLoading}>
             Cancelar
           </Button>
-          <Button variant="primary" type="submit">
-            {submitText}
+          <Button variant="primary" type="submit" disabled={isLoading}>
+            {isLoading ? 'Salvando...' : submitText}
           </Button>
         </footer>
 

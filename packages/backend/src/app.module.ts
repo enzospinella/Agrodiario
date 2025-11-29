@@ -10,6 +10,8 @@ import { UsersModule } from '@modules/users/users.module';
 import { AuthModule } from '@modules/auth/auth.module';
 import { ActivityModule } from './modules/activities/activities.module';
 import { EmbrapaModule } from './embrapa/embrapa.module';
+import { PropertiesModule } from '@modules/properties/properties.module';
+import { CulturesModule } from '@modules/cultures/cultures.module';
 
 @Module({
   imports: [
@@ -43,7 +45,9 @@ import { EmbrapaModule } from './embrapa/embrapa.module';
     UsersModule,
     AuthModule,
     ActivityModule,
-    EmbrapaModule
+    EmbrapaModule,
+    PropertiesModule,
+    CulturesModule
   ],
   controllers: [AppController],
   providers: [AppService],
