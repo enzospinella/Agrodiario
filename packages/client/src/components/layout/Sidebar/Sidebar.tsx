@@ -32,7 +32,7 @@ export function Sidebar() {
 
         <nav className={styles.nav}>
           <NavLink
-            to="/app"
+            to="/"
             end // 'end' garante que só fique ativo no 'Início'
             className={({ isActive }) =>
               isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
@@ -43,7 +43,7 @@ export function Sidebar() {
           </NavLink>
 
           <NavLink
-            to="/app/diary"
+            to="/diary"
             className={({ isActive }) =>
               isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
             }
@@ -53,7 +53,7 @@ export function Sidebar() {
           </NavLink>
 
           <NavLink
-            to="/app/properties"
+            to="/properties"
             className={({ isActive }) =>
               isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
             }
@@ -63,7 +63,7 @@ export function Sidebar() {
           </NavLink>
 
           <NavLink
-            to="/app/cultures"
+            to="/cultures"
             className={({ isActive }) =>
               isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
             }
@@ -73,7 +73,7 @@ export function Sidebar() {
           </NavLink>
 
           <NavLink
-            to="/app/products"
+            to="/products"
             className={({ isActive }) =>
               isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
             }
