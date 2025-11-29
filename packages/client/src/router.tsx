@@ -1,15 +1,14 @@
-// src/router.tsx
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 
 // Layouts
 import RootLayout from './layouts/RootLayout';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
+import { RootRedirector } from './components/RootRedirector';
 
-// Páginas de Autenticação
+// Páginas
+import Landing from './pages/landing-page/Landing';
 import LoginPage from './pages/auth/Login';
 import RegisterPage from './pages/auth/Register';
-
-// Páginas do App
 import HomePage from './pages/Home';
 import DiaryPage from './pages/Diary';
 import PropertiesPage from './pages/Properties';
@@ -21,16 +20,21 @@ import EditActivity from './pages/EditActivity';
 import PropertiesLayout from './layouts/PropertiesLayout';
 import NewProperty from './pages/NewProperty';
 import EditProperty from './pages/EditProperty';
-import Landing from './pages/landing-page/Landing';
 
 export const router = createBrowserRouter([
-  /* --- ROTA PADRÃO (Pública) --- */
+  /* --- ROTA RAIZ - Redirecionamento Inteligente --- */
   {
     path: '/',
+    element: <RootRedirector />,
+  },
+
+  /* --- LANDING PAGE (Pública) --- */
+  {
+    path: '/landing',
     element: <Landing />,
   },
 
-  /* --- AUTENTICAÇÃO --- */
+  /* --- AUTENTICAÇÃO (Públicas) --- */
   {
     path: '/login',
     element: <LoginPage />,
@@ -40,9 +44,9 @@ export const router = createBrowserRouter([
     element: <RegisterPage />,
   },
 
-  /* --- ROTAS PROTEGIDAS DO APP --- */
+  /* --- APP PRINCIPAL (Protegido) --- */
   {
-    path: '/app',
+    path: '/',
     element: (
       <ProtectedRoute>
         <RootLayout />
@@ -50,27 +54,25 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
-        index: true, // /app
+        path: 'home',
         element: <HomePage />,
       },
 
-      /* Diario */
       {
         path: 'diary',
         element: <DiaryLayout />,
         children: [
-          { index: true, element: <DiaryPage /> },       // /app/diary
-          { path: 'new', element: <NewActivity /> },     // /app/diary/new
-          { path: 'edit/:id', element: <EditActivity /> } // /app/diary/edit/123
+          { index: true, element: <DiaryPage /> }, 
+          { path: 'new', element: <NewActivity /> },
+          { path: 'edit/:id', element: <EditActivity /> }
         ],
       },
 
-      /* Propriedades */
       {
         path: 'properties',
         element: <PropertiesLayout />,
         children: [
-          { index: true, element: <PropertiesPage /> },  // /app/properties
+          { index: true, element: <PropertiesPage /> },
           { path: 'new', element: <NewProperty /> },
           { path: 'edit/:id', element: <EditProperty /> }
         ],
@@ -78,6 +80,16 @@ export const router = createBrowserRouter([
 
       { path: 'cultures', element: <CulturesPage /> },
       { path: 'products', element: <ProductsPage /> },
+      
+      {
+        path: '*',
+        element: <Navigate to="/home" replace />,
+      },
     ],
+  },
+
+  {
+    path: '*',
+    element: <Navigate to="/landing" replace />,
   },
 ]);
