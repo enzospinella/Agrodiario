@@ -1,4 +1,3 @@
-// src/pages/Diary.tsx
 import { FaRegCalendarPlus } from 'react-icons/fa';
 import { Button } from '../components/common/Button/Button';
 import { Input } from '../components/common/Input/Input';
@@ -6,7 +5,6 @@ import { Dropdown } from '../components/common/Dropdown/Dropdown';
 import { ActivityCard } from '../components/diary/ActivityCard/ActivityCard';
 import styles from './Diary.module.css';
 
-// Ícones
 import {
   FiSearch,
   FiDownload,
@@ -23,7 +21,6 @@ export type Activity = {
   preparo: string;
   aplicacao: string;
   responsavel: string;
-  // Campos adicionais para os detalhes
   propriedade: string;
   tipo: 'preparo' | 'aplicacao' | 'colheita' | 'manejo';
   descricao: string;
@@ -143,7 +140,6 @@ const mockData = [
 ];
 
 export default function DiaryPage() {
-
   const handleSortNewest = () => {
     console.log('Ordenando por mais recentes');
   };
@@ -164,20 +160,16 @@ export default function DiaryPage() {
 
   const handleCloseDrawer = () => {
     setIsDrawerOpen(false);
-    // É uma boa prática limpar o estado ao fechar
-    setTimeout(() => setSelectedActivity(null), 300); // Atraso pela animação
+    setTimeout(() => setSelectedActivity(null), 300);
   };
 
   const handleEdit = () => {
     console.log('Editar:', selectedActivity?.id);
-    // Aqui você pode navegar para a página de edição
-    // navigate(`edit/${selectedActivity?.id}`)
   };
 
   const handleDelete = () => {
     console.log('Excluir:', selectedActivity?.id);
-    // Adicione a lógica de exclusão
-    handleCloseDrawer(); // Fecha o drawer após excluir
+    handleCloseDrawer();
   };
 
   return (
@@ -188,54 +180,62 @@ export default function DiaryPage() {
             label="Busque por alguma anotação"
             name="search"
             icon={<FiSearch size={18} />}
-            style={{ borderRadius: '128px', padding: '0.6rem 1rem', width: '95%' }}
+            style={{ borderRadius: '128px', padding: '0.6rem 1rem', width: '100%' }}
           />
         </div>
-        <div className={styles.toolbarButtons} >
+        
+        <div className={styles.toolbarButtons}>
           <Dropdown
             trigger={
-              <Button variant="tertiary" leftIcon={<FaRegCalendarPlus size={18} />} rightIcon={<MdArrowDropDown size={18} />} style={{ borderRadius: '16px', width: 'max-content' }} >
-                Ordenar por
+              <Button 
+                variant="tertiary" 
+                leftIcon={<FaRegCalendarPlus size={18} />} 
+                rightIcon={<MdArrowDropDown size={18} />} 
+                className={styles.sortButton}
+              >
+                <span className={styles.buttonText}>Ordenar por</span>
               </Button>
             }
           >
             <div className={styles.dropdownMenu}>
-              <button
-                onClick={handleSortNewest}
-                className={styles.dropdownItem}
-              >
+              <button onClick={handleSortNewest} className={styles.dropdownItem}>
                 Mais recentes
               </button>
-              <button
-                onClick={handleSortOldest}
-                className={styles.dropdownItem}
-              >
+              <button onClick={handleSortOldest} className={styles.dropdownItem}>
                 Mais antigas
               </button>
             </div>
           </Dropdown>
-          <div></div>
-          <Button variant="secondary" leftIcon={<FiDownload size={18} />} style={{ borderRadius: '32px' }} >
-            Gerar relatório
+          
+          <Button 
+            variant="secondary" 
+            leftIcon={<FiDownload size={18} />} 
+            className={styles.reportButton}
+          >
+            <span className={styles.buttonText}>Gerar relatório</span>
           </Button>
         </div>
       </div>
 
-      {/* 3. Grid de Cards */}
+      {/* Grid de Cards */}
       <div className={styles.grid}>
         {mockData.map((item) => (
           <ActivityCard
-          key={item.id}
-          // 7. Passar a atividade inteira e a função de 'view'
-          activity={item}
-          onView={() => handleViewActivity(item)}
-        />
+            key={item.id}
+            activity={item}
+            onView={() => handleViewActivity(item)}
+          />
         ))}
       </div>
 
-      {/* 4. Rodapé (Carregar mais) */}
+      {/* Rodapé (Carregar mais) */}
       <footer className={styles.footer}>
-        <Button variant="quaternary" style={{ width: '15%', borderRadius: '32px', border: '1px solid rgba(0, 0, 0, 0.5)' }}>Carregar mais</Button>
+        <Button 
+          variant="quaternary" 
+          className={styles.loadMoreButton}
+        >
+          Carregar mais
+        </Button>
       </footer>
 
       <Drawer
@@ -243,7 +243,6 @@ export default function DiaryPage() {
         onClose={handleCloseDrawer}
         title="Visualizar atividade"
       >
-        {/* Só renderiza o conteúdo se uma atividade estiver selecionada */}
         {selectedActivity && (
           <ActivityDetailsDrawer
             activity={selectedActivity}
