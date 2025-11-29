@@ -15,7 +15,6 @@ import DiaryPage from './pages/Diary';
 import PropertiesPage from './pages/Properties';
 import CulturesPage from './pages/Cultures';
 import ProductsPage from './pages/Products';
-import NewActivityPage from './pages/ActivityForm';
 import DiaryLayout from './layouts/DiaryLayout';
 import NewActivity from './pages/NewActivity';
 import EditActivity from './pages/EditActivity';
@@ -32,6 +31,7 @@ export const router = createBrowserRouter([
   },
 
   /* --- ROTAS DE AUTENTICAÇÃO (Públicas) --- */
+  /* --- ROTAS DE AUTENTICAÇÃO --- */
   {
     path: '/login',
     element: <LoginPage />,
@@ -42,6 +42,7 @@ export const router = createBrowserRouter([
   },
 
   /* --- ROTAS DO APP (Protegidas) --- */
+  /* --- ROTAS DO APP --- */
   {
     path: '/app',
     element: (
@@ -61,6 +62,16 @@ export const router = createBrowserRouter([
           { index: true, element: <DiaryPage /> },      // /app/diary
           { path: 'new', element: <NewActivity /> },    // /app/diary/new
           { path: 'edit/:id', element: <EditActivity /> },
+        index: true, 
+        element: <HomePage />,
+      },
+      {
+        path: 'diary',
+        element: <DiaryLayout />, 
+        children: [
+          { index: true, element: <DiaryPage /> },      
+          { path: 'new', element: <NewActivity /> },  
+          { path: 'edit/:id', element: <EditActivity /> }, 
         ],
       },
 
@@ -71,6 +82,11 @@ export const router = createBrowserRouter([
           { index: true, element: <PropertiesPage /> }, // /app/properties
           { path: 'new', element: <NewProperty /> },
           { path: 'edit/:id', element: <EditProperty /> },
+        element: <PropertiesLayout />, 
+        children: [
+          { index: true, element: <PropertiesPage /> },    
+          { path: 'new', element: <NewProperty /> }, 
+          { path: 'edit/:id', element: <EditProperty /> }, 
         ],
       },
 

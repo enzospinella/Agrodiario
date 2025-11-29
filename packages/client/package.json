@@ -13,6 +13,8 @@
     "@tabler/icons-react": "^3.35.0",
     "@types/leaflet": "^1.9.21",
     "axios": "^1.13.2",
+    "jspdf": "^3.0.4",
+    "jspdf-autotable": "^5.0.2",
     "leaflet": "^1.9.4",
     "leaflet-draw": "^1.0.4",
     "lucide-react": "^0.555.0",
@@ -22,7 +24,8 @@
     "react-icons": "^5.5.0",
     "react-leaflet": "^4.2.1",
     "react-leaflet-draw": "^0.20.4",
-    "react-router-dom": "^7.9.4"
+    "react-router-dom": "^7.9.4",
+    "react-select": "^5.10.2"
   },
   "devDependencies": {
     "@types/node": "^24.9.1",
