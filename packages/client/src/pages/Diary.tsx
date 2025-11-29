@@ -6,156 +6,71 @@ import { Dropdown } from '../components/common/Dropdown/Dropdown';
 import { ActivityCard } from '../components/diary/ActivityCard/ActivityCard';
 import styles from './Diary.module.css';
 
-// Ícones
 import {
   FiSearch,
   FiDownload,
 } from 'react-icons/fi';
 import { MdArrowDropDown } from 'react-icons/md';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Drawer } from '@/components/common/Drawer/Drawer';
 import { ActivityDetailsDrawer } from '@/components/diary/ActivityDetailsDrawer/ActivityDetailsDrawer';
+import { activityService } from '@/services/activityService';
+
+import { generateActivityReport } from '@/utils/generatePDF';
 
 export type Activity = {
   id: string;
   date: string;
-  title: string;
+  titulo: string;
   preparo: string;
   aplicacao: string;
   responsavel: string;
-  // Campos adicionais para os detalhes
   propriedade: string;
+  insumoNome?: string;
+  insumoQuantidade?: string;
+  insumoUnidade?: string;
   tipo: 'preparo' | 'aplicacao' | 'colheita' | 'manejo';
   descricao: string;
-  anexos: { name: string }[];
+  anexos: [];
 };
 
-// Dados de exemplo
-const mockData = [
-  {
-    id: '1',
-    date: '12/07/25',
-    title: 'Lorem Ipsum',
-    preparo: 'Aragem no solo do talhão 3',
-    aplicacao: 'Fertilizante NPK (20 kg)',
-    responsavel: 'Lorem Ipsum e equipe',
-    propriedade: 'Sítio Oliveira',
-    tipo: 'preparo' as 'preparo',
-    descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    anexos: [{ name: 'Foto.png' }],
-  },
-  {
-    id: '2',
-    date: '12/07/25',
-    title: 'Lorem Ipsum',
-    preparo: 'Aragem no solo do talhão 3',
-    aplicacao: 'Fertilizante NPK (20 kg)',
-    responsavel: 'Lorem Ipsum e equipe',
-    propriedade: 'Sítio Oliveira',
-    tipo: 'preparo' as 'preparo',
-    descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    anexos: [{ name: 'Foto.png' }],
-  },
-  {
-    id: '3',
-    date: '12/07/25',
-    title: 'Lorem Ipsum',
-    preparo: 'Aragem no solo do talhão 3',
-    aplicacao: 'Fertilizante NPK (20 kg)',
-    responsavel: 'Lorem Ipsum e equipe',
-    propriedade: 'Sítio Oliveira',
-    tipo: 'preparo' as 'preparo',
-    descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    anexos: [{ name: 'Foto.png' }],
-  },
-  {
-    id: '4',
-    date: '12/07/25',
-    title: 'Lorem Ipsum',
-    preparo: 'Aragem no solo do talhão 3',
-    aplicacao: 'Fertilizante NPK (20 kg)',
-    responsavel: 'Lorem Ipsum e equipe',
-    propriedade: 'Sítio Oliveira',
-    tipo: 'preparo' as 'preparo',
-    descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    anexos: [{ name: 'Foto.png' }],
-  },
-  {
-    id: '5',
-    date: '12/07/25',
-    title: 'Lorem Ipsum',
-    preparo: 'Aragem no solo do talhão 3',
-    aplicacao: 'Fertilizante NPK (20 kg)',
-    responsavel: 'Lorem Ipsum e equipe',
-    propriedade: 'Sítio Oliveira',
-    tipo: 'preparo' as 'preparo',
-    descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    anexos: [{ name: 'Foto.png' }],
-  },
-  {
-    id: '6',
-    date: '12/07/25',
-    title: 'Lorem Ipsum',
-    preparo: 'Aragem no solo do talhão 3',
-    aplicacao: 'Fertilizante NPK (20 kg)',
-    responsavel: 'Lorem Ipsum e equipe',
-    propriedade: 'Sítio Oliveira',
-    tipo: 'preparo' as 'preparo',
-    descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    anexos: [{ name: 'Foto.png' }],
-  },
-  {
-    id: '7',
-    date: '12/07/25',
-    title: 'Lorem Ipsum',
-    preparo: 'Aragem no solo do talhão 3',
-    aplicacao: 'Fertilizante NPK (20 kg)',
-    responsavel: 'Lorem Ipsum e equipe',
-    propriedade: 'Sítio Oliveira',
-    tipo: 'preparo' as 'preparo',
-    descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    anexos: [{ name: 'Foto.png' }],
-  },
-  {
-    id: '8',
-    date: '12/07/25',
-    title: 'Lorem Ipsum',
-    preparo: 'Aragem no solo do talhão 3',
-    aplicacao: 'Fertilizante NPK (20 kg)',
-    responsavel: 'Lorem Ipsum e equipe',
-    propriedade: 'Sítio Oliveira',
-    tipo: 'preparo' as 'preparo',
-    descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    anexos: [{ name: 'Foto.png' }],
-  },
-  {
-    id: '9',
-    date: '02/07/25',
-    title: 'Lorem Ipsum',
-    preparo: 'Aragem no solo do talhão 3',
-    aplicacao: 'Fertilizante NPK (20 kg)',
-    responsavel: 'Lorem Ipsum e equipe',
-    propriedade: 'Sítio Oliveira',
-    tipo: 'preparo' as 'preparo',
-    descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    anexos: [{ name: 'Foto.png' }],
-  },
-];
+const ITEMS_PER_PAGE = 6;
 
 export default function DiaryPage() {
-
-  const handleSortNewest = () => {
-    console.log('Ordenando por mais recentes');
-  };
-
-  const handleSortOldest = () => {
-    console.log('Ordenando por mais antigas');
-  };
+  
+  const [activities, setActivities] = useState<any[]>([]); 
+  const [total, setTotal] = useState(0);
+  
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [sortOrder, setSortOrder] = useState<'ASC' | 'DESC'>('DESC');
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(
     null
   );
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isGeneratingReport, setIsGeneratingReport] = useState(false);
+
+  const handleGenerateReport = async () => {
+    try {
+      setIsGeneratingReport(true);
+      
+      const response = await activityService.getAll(1, 1000, sortOrder, searchTerm);
+      
+      const textoFiltro = searchTerm ? `Busca por: "${searchTerm}"` : 'Todos os registros';
+      
+      generateActivityReport(response.data, textoFiltro);
+
+    } catch (error) {
+      console.error('Erro ao gerar relatório', error);
+      alert('Erro ao gerar o relatório. Tente novamente.');
+    } finally {
+      setIsGeneratingReport(false);
+    }
+  };
 
   const handleViewActivity = (activity: Activity) => {
     setSelectedActivity(activity);
@@ -164,21 +79,71 @@ export default function DiaryPage() {
 
   const handleCloseDrawer = () => {
     setIsDrawerOpen(false);
-    // É uma boa prática limpar o estado ao fechar
-    setTimeout(() => setSelectedActivity(null), 300); // Atraso pela animação
+    setTimeout(() => setSelectedActivity(null), 300); 
   };
 
-  const handleEdit = () => {
-    console.log('Editar:', selectedActivity?.id);
-    // Aqui você pode navegar para a página de edição
-    // navigate(`edit/${selectedActivity?.id}`)
+  const handleLoadMore = () => {
+    const nextPage = page + 1;
+    setPage(nextPage);
+    loadActivities(nextPage, sortOrder, searchTerm);
+  };
+  
+  const loadActivities = async (
+    pageToLoad: number, 
+    orderToLoad: 'ASC' | 'DESC', 
+    searchToLoad: string
+  ) => {
+    try {
+      if (pageToLoad === 1) setLoading(true);
+      else setLoadingMore(true);
+
+      const response = await activityService.getAll(pageToLoad, ITEMS_PER_PAGE, orderToLoad, searchToLoad);
+
+      if (pageToLoad === 1) {
+        setActivities(response.data);
+      } else {
+        setActivities((prev) => [...prev, ...response.data]);
+      }
+      setTotal(response.total);
+    } catch (error) {
+      console.error("Erro ao carregar", error);
+    } finally {
+      setLoading(false);
+      setLoadingMore(false);
+    }
+  }
+
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      setPage(1); 
+      loadActivities(1, sortOrder, searchTerm);
+    }, 500); 
+
+    return () => clearTimeout(delayDebounce);
+  }, [searchTerm]);
+
+  const handleDelete = async () => {
+    if (!selectedActivity) return;
+    await activityService.delete(selectedActivity.id);
+    await loadActivities(1, sortOrder, searchTerm); 
+    handleCloseDrawer();
+  }
+
+  const handleSortChange = (newOrder: 'ASC' | 'DESC') => {
+    if (newOrder === sortOrder) return;
+
+    setSortOrder(newOrder);
+    setPage(1);
+    setActivities([]);
+    
+    loadActivities(1, newOrder, searchTerm);
   };
 
-  const handleDelete = () => {
-    console.log('Excluir:', selectedActivity?.id);
-    // Adicione a lógica de exclusão
-    handleCloseDrawer(); // Fecha o drawer após excluir
-  };
+  useEffect(() => {
+    loadActivities(1, sortOrder, searchTerm);
+  }, []);
+
+  const hasMore = activities.length < total;
 
   return (
     <div className={styles.diaryPage}>
@@ -186,6 +151,8 @@ export default function DiaryPage() {
         <div className={styles.searchWrapper}>
           <Input
             label="Busque por alguma anotação"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             name="search"
             icon={<FiSearch size={18} />}
             style={{ borderRadius: '128px', padding: '0.6rem 1rem', width: '95%' }}
@@ -200,42 +167,68 @@ export default function DiaryPage() {
             }
           >
             <div className={styles.dropdownMenu}>
-              <button
-                onClick={handleSortNewest}
+              <button 
                 className={styles.dropdownItem}
+                onClick={() => handleSortChange('DESC')}
+                style={{ fontWeight: sortOrder === 'DESC' ? 'bold' : 'normal' }}
               >
                 Mais recentes
               </button>
-              <button
-                onClick={handleSortOldest}
+              <button 
                 className={styles.dropdownItem}
+                onClick={() => handleSortChange('ASC')}
+                style={{ fontWeight: sortOrder === 'ASC' ? 'bold' : 'normal' }}
               >
                 Mais antigas
               </button>
             </div>
           </Dropdown>
+
           <div></div>
-          <Button variant="secondary" leftIcon={<FiDownload size={18} />} style={{ borderRadius: '32px' }} >
-            Gerar relatório
+          
+          <Button 
+            variant="secondary" 
+            leftIcon={<FiDownload size={18} />} 
+            style={{ borderRadius: '32px' }}
+            onClick={handleGenerateReport}
+            disabled={isGeneratingReport}
+          >
+            {isGeneratingReport ? 'Gerando...' : 'Gerar relatório'}
           </Button>
         </div>
       </div>
 
-      {/* 3. Grid de Cards */}
       <div className={styles.grid}>
-        {mockData.map((item) => (
-          <ActivityCard
-          key={item.id}
-          // 7. Passar a atividade inteira e a função de 'view'
-          activity={item}
-          onView={() => handleViewActivity(item)}
-        />
-        ))}
+        {loading && page === 1 ? (
+           <p>Carregando atividades...</p>
+        ) : (
+           activities.map((item) => (
+             <ActivityCard 
+                key={item.id} 
+                activity={item} 
+                onView={() => handleViewActivity(item)} 
+             />
+           ))
+        )}
       </div>
 
-      {/* 4. Rodapé (Carregar mais) */}
       <footer className={styles.footer}>
-        <Button variant="quaternary" style={{ width: '15%', borderRadius: '32px', border: '1px solid rgba(0, 0, 0, 0.5)' }}>Carregar mais</Button>
+        {hasMore && (
+          <Button 
+            variant="quaternary" 
+            onClick={handleLoadMore}
+            disabled={loadingMore}
+          >
+            {loadingMore ? 'Carregando...' : 'Carregar mais'}
+          </Button>
+        )}
+        
+        {/* Opcional: Mensagem quando acaba */}
+        {!hasMore && activities.length > 0 && (
+          <span style={{ color: '#999', fontSize: '0.9rem' }}>
+            Você chegou ao fim da lista.
+          </span>
+        )}
       </footer>
 
       <Drawer
@@ -243,11 +236,11 @@ export default function DiaryPage() {
         onClose={handleCloseDrawer}
         title="Visualizar atividade"
       >
-        {/* Só renderiza o conteúdo se uma atividade estiver selecionada */}
         {selectedActivity && (
           <ActivityDetailsDrawer
-            activity={selectedActivity}
-            onEdit={handleEdit}
+            activity={{
+              ...selectedActivity,
+            }}
             onDelete={handleDelete}
           />
         )}

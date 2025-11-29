@@ -15,7 +15,6 @@ import DiaryPage from './pages/Diary';
 import PropertiesPage from './pages/Properties';
 import CulturesPage from './pages/Cultures';
 import ProductsPage from './pages/Products';
-import NewActivityPage from './pages/ActivityForm';
 import DiaryLayout from './layouts/DiaryLayout';
 import NewActivity from './pages/NewActivity';
 import EditActivity from './pages/EditActivity';
@@ -24,7 +23,7 @@ import NewProperty from './pages/NewProperty';
 import EditProperty from './pages/EditProperty';
 
 export const router = createBrowserRouter([
-  /* --- ROTAS DE AUTENTICAÇÃO (Sem Sidebar) --- */
+  /* --- ROTAS DE AUTENTICAÇÃO --- */
   {
     path: '/login',
     element: <LoginPage />,
@@ -34,7 +33,7 @@ export const router = createBrowserRouter([
     element: <RegisterPage />,
   },
 
-  /* --- ROTAS DO APP (Com Sidebar) --- */
+  /* --- ROTAS DO APP --- */
   {
     path: '/',
     element: (
@@ -45,25 +44,25 @@ export const router = createBrowserRouter([
     // errorElement: <ErrorPage />,
     children: [
       {
-        index: true, // Rota 'Início'
+        index: true, 
         element: <HomePage />,
       },
       {
         path: 'diary',
-        element: <DiaryLayout />, // O pai <Outlet> renderiza os filhos
+        element: <DiaryLayout />, 
         children: [
-          { index: true, element: <DiaryPage /> },      // /diary
-          { path: 'new', element: <NewActivity /> },  // /diary/new
-          { path: 'edit/:id', element: <EditActivity /> }, // /diary/edit/1
+          { index: true, element: <DiaryPage /> },      
+          { path: 'new', element: <NewActivity /> },  
+          { path: 'edit/:id', element: <EditActivity /> }, 
         ],
       },
       {
         path: 'properties',
-        element: <PropertiesLayout />, // O novo layout de seção
+        element: <PropertiesLayout />, 
         children: [
-          { index: true, element: <PropertiesPage /> },    // /properties
-          { path: 'new', element: <NewProperty /> },  // /properties/new
-          { path: 'edit/:id', element: <EditProperty /> }, // /properties/edit/1
+          { index: true, element: <PropertiesPage /> },    
+          { path: 'new', element: <NewProperty /> }, 
+          { path: 'edit/:id', element: <EditProperty /> }, 
         ],
       },
       {
