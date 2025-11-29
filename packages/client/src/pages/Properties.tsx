@@ -201,7 +201,7 @@ export default function PropertiesPage() {
       </div>
 
       <footer className={styles.footer}>
-        <Button variant="quaternary">Carregar mais</Button>
+        <Button variant="outlined">Carregar mais</Button>
       </footer>
 
       <Drawer

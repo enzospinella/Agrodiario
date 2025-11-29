@@ -21,8 +21,16 @@ import EditActivity from './pages/EditActivity';
 import PropertiesLayout from './layouts/PropertiesLayout';
 import NewProperty from './pages/NewProperty';
 import EditProperty from './pages/EditProperty';
+import Landing from './pages/landing-page/Landing';
 
 export const router = createBrowserRouter([
+  /* --- ROTA PADRÃO (Pública) --- */
+  {
+    path: '/',
+    element: <Landing />, // Agora a Landing é a página inicial
+  },
+
+  /* --- ROTAS DE AUTENTICAÇÃO (Públicas) --- */
   /* --- ROTAS DE AUTENTICAÇÃO --- */
   {
     path: '/login',
@@ -33,17 +41,27 @@ export const router = createBrowserRouter([
     element: <RegisterPage />,
   },
 
+  /* --- ROTAS DO APP (Protegidas) --- */
   /* --- ROTAS DO APP --- */
   {
-    path: '/',
+    path: '/app',
     element: (
       <ProtectedRoute>
         <RootLayout />
       </ProtectedRoute>
     ),
-    // errorElement: <ErrorPage />,
     children: [
       {
+        index: true,
+        element: <HomePage />, // /app
+      },
+      {
+        path: 'diary',
+        element: <DiaryLayout />,
+        children: [
+          { index: true, element: <DiaryPage /> },      // /app/diary
+          { path: 'new', element: <NewActivity /> },    // /app/diary/new
+          { path: 'edit/:id', element: <EditActivity /> },
         index: true, 
         element: <HomePage />,
       },
@@ -56,8 +74,14 @@ export const router = createBrowserRouter([
           { path: 'edit/:id', element: <EditActivity /> }, 
         ],
       },
+
       {
         path: 'properties',
+        element: <PropertiesLayout />,
+        children: [
+          { index: true, element: <PropertiesPage /> }, // /app/properties
+          { path: 'new', element: <NewProperty /> },
+          { path: 'edit/:id', element: <EditProperty /> },
         element: <PropertiesLayout />, 
         children: [
           { index: true, element: <PropertiesPage /> },    
@@ -65,14 +89,9 @@ export const router = createBrowserRouter([
           { path: 'edit/:id', element: <EditProperty /> }, 
         ],
       },
-      {
-        path: 'cultures',
-        element: <CulturesPage />,
-      },
-      {
-        path: 'products',
-        element: <ProductsPage />,
-      },
+
+      { path: 'cultures', element: <CulturesPage /> }, // /app/cultures
+      { path: 'products', element: <ProductsPage /> }, // /app/products
     ],
   },
 ]);

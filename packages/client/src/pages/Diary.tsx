@@ -213,6 +213,7 @@ export default function DiaryPage() {
       </div>
 
       <footer className={styles.footer}>
+        <Button variant="outlined">Carregar mais</Button>
         {hasMore && (
           <Button 
             variant="quaternary" 

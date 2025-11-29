@@ -12,21 +12,26 @@
 
 :root {
   /* Cores Principais */
-  --color-primary: #008542;
-  --color-primary-dark: #006a35;
+  --color-primary: #36693E;
+  --color-primary-dark: #003412;
 
   /* Cores de Texto */
   --color-text-primary: #101828;   /* Títulos escuros */
   --color-text-secondary: #475467; /* Subtítulos */
   --color-text-placeholder: #667085;/* Placeholders */
   --color-text-on-primary: #FFFFFF;  /* Texto sobre botão verde */
+  --color-text-on-surface: #181D18;
+  --color-text-on-surface-variant: #424941;
+  --color-text-on-primary-container: #1D5128;
   
   /* Cores de Fundo */
   --color-bg-light: #f7f9f7;   /* Fundo da página (verde claro) */
   --color-bg-white: #FFFFFF;   /* Fundo do card */
+  --color-bg-surface-container-low: #F1F5EC;
 
   /* Outras */
   --color-border: #d0d5dd;     /* Bordas do input */
+  --color-outline: #727970;
 
   --color-icon: #36693E;    /* Ícones */
 
@@ -37,6 +42,7 @@
   --border-radius-md: 8px;
   --border-radius-lg: 16px;
   --border-radius-xx: 32px;
+  --border-radius-button: 100px;
 }
 
 html,
