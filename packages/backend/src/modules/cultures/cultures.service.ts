@@ -56,15 +56,29 @@ export class CulturesService {
   ): Promise<{ data: CultureResponseDto[]; total: number; page: number; lastPage: number }> {
     const skip = (page - 1) * limit;
 
-    const [cultures, total] = await this.culturesRepository.findAndCount({
-      where: { userId, isActive: true },
-      relations: ['property'],
-      skip,
-      take: limit,
-      order: { createdAt: 'DESC' },
-    });
+    // Query builder to get cultures with activities count
+    const queryBuilder = this.culturesRepository
+      .createQueryBuilder('culture')
+      .leftJoinAndSelect('culture.property', 'property')
+      .leftJoin('culture.activities', 'activity')
+      .addSelect('COUNT(activity.id)', 'activitiesCount')
+      .where('culture.userId = :userId', { userId })
+      .groupBy('culture.id')
+      .addGroupBy('property.id')
+      .orderBy('culture.createdAt', 'DESC')
+      .skip(skip)
+      .take(limit);
 
-    const data = cultures.map((culture) => this.mapToResponseDto(culture));
+    const [cultures, total] = await Promise.all([
+      queryBuilder.getRawAndEntities(),
+      this.culturesRepository.count({ where: { userId } }),
+    ]);
+
+    const data = cultures.entities.map((culture, index) => {
+      const dto = this.mapToResponseDto(culture);
+      dto.activitiesCount = parseInt(cultures.raw[index].activitiesCount) || 0;
+      return dto;
+    });
 
     return {
       data,
@@ -103,6 +117,22 @@ export class CulturesService {
   }
 
   private mapToResponseDto(culture: Culture): CultureResponseDto {
+    // Calculate days elapsed since planting
+    const today = new Date();
+    const plantingDate = new Date(culture.plantingDate);
+    const diffTime = today.getTime() - plantingDate.getTime();
+    const daysElapsed = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    
+    // Calculate expected harvest date
+    const expectedHarvestDate = new Date(plantingDate);
+    expectedHarvestDate.setDate(expectedHarvestDate.getDate() + culture.cycle);
+    
+    // Calculate days remaining in cycle
+    const daysRemaining = culture.cycle - daysElapsed;
+    
+    // Check if cycle is complete
+    const isCycleComplete = today >= expectedHarvestDate;
+
     const response: CultureResponseDto = {
       id: culture.id,
       propertyId: culture.propertyId,
@@ -118,6 +148,12 @@ export class CulturesService {
       isActive: culture.isActive,
       createdAt: culture.createdAt,
       updatedAt: culture.updatedAt,
+      
+      // Calculated fields
+      daysElapsed: Math.max(0, daysElapsed), // Don't return negative days if planting is in future
+      daysRemaining,
+      isCycleComplete,
+      expectedHarvestDate,
     };
 
     if (culture.property) {

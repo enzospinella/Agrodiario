@@ -1,7 +1,8 @@
-import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
 import { BaseEntity } from '../../../database/entities/base.entity';
 import { Property } from '../../properties/entities/property.entity';
 import { User } from '../../users/entities/user.entity';
+import { Activity } from '../../activities/entities/activity.entity';
 import { CultureOrigin } from '../enums/culture-origin.enum';
 
 @Entity('cultures')
@@ -21,6 +22,10 @@ export class Culture extends BaseEntity {
 
   @Column({ type: 'uuid' })
   userId: string;
+
+  // Relationship to Activities
+  @OneToMany(() => Activity, (activity) => activity.culture)
+  activities: Activity[];
 
   // Culture name (free text given by owner)
   @Column({ type: 'varchar', length: 255 })
