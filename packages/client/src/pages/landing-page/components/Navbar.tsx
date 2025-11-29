@@ -1,53 +1,29 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import styles from './Navbar.module.css';
 import logo from '@/assets/logo-grande.png';
 import { Button } from '@/components/common/Button/Button';
 
-export function Navbar() {
+// DEFINIÇÃO DAS PROPS
+interface NavbarProps {
+    activeSection: 'inicio' | 'sobre' | 'quem-somos' | 'parceiros';
+    onNavigate: (section: string) => void;
+}
+
+// APLICAÇÃO DAS PROPS
+export function Navbar({ activeSection, onNavigate }: NavbarProps) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const [currentSection, setCurrentSection] = useState<'inicio' | 'sobre' | 'quem-somos'>('inicio');
 
     const navItems = [
         { id: 'inicio', label: 'Início' },
         { id: 'sobre', label: 'Sobre' },
         { id: 'quem-somos', label: 'Quem somos' },
         { id: 'parceiros', label: 'Parceiros' },
-
     ];
 
-    // ScrollSpy com IntersectionObserver
-    useEffect(() => {
-        const sections = document.querySelectorAll('section[id]');
-
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        setCurrentSection(entry.target.id as any);
-                    }
-                });
-            },
-            {
-                threshold: 0.55,
-            }
-        );
-
-        sections.forEach((sec) => observer.observe(sec));
-
-        return () => {
-            sections.forEach((sec) => observer.unobserve(sec));
-        };
-    }, []);
-
     const handleNavClick = (section: string) => {
-        setCurrentSection(section as any);
+        onNavigate(section);
         setMobileMenuOpen(false);
-
-        const element = document.getElementById(section);
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-        }
     };
 
     const handleSignup = () => {
@@ -74,7 +50,7 @@ export function Navbar() {
                         {navItems.map((item) => (
                             <button
                                 key={item.id}
-                                className={`${styles.navLink} ${currentSection === item.id ? styles.active : ''
+                                className={`${styles.navLink} ${activeSection === item.id ? styles.active : ''
                                     }`}
                                 onClick={() => handleNavClick(item.id)}
                             >
@@ -110,7 +86,7 @@ export function Navbar() {
                     {navItems.map((item) => (
                         <button
                             key={item.id}
-                            className={`${styles.mobileNavLink} ${currentSection === item.id ? styles.active : ''
+                            className={`${styles.mobileNavLink} ${activeSection === item.id ? styles.active : ''
                                 }`}
                             onClick={() => handleNavClick(item.id)}
                         >
