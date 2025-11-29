@@ -4,7 +4,7 @@ import macbook from '@/assets/macbook-mockup.png';
 
 export function About() {
     const handleSignup = () => {
-        window.location.href = "/auth/signup";
+        window.location.href = "/register";
     };
 
     return (

@@ -25,12 +25,12 @@ export function Navbar({ activeSection = 'inicio', onNavigate }: NavbarProps) {
 
     const handleSignup = () => {
         // Redirecionar para página de autenticação
-        window.location.href = '/auth/signup';
+        window.location.href = '/register';
     };
 
     const handleLogin = () => {
         // Redirecionar para página de login
-        window.location.href = '/auth/login';
+        window.location.href = '/login';
     };
 
     const navItems = [

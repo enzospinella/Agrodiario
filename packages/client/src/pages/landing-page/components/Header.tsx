@@ -4,7 +4,7 @@ import background from '@/assets/background.jpg';
 
 export function Header() {
   const handleSignup = () => {
-    window.location.href = "/auth/signup";
+    window.location.href = "/register";
   };
 
   return (

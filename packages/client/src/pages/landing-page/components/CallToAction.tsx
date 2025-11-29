@@ -3,6 +3,9 @@ import styles from "./CallToAction.module.css";
 import ctaImage from "@/assets/cta.jpg";
 
 export function CallToAction() {
+  const handleSignup = () => {
+    window.location.href = "/register";
+  };
   return (
     <section className={styles.ctaSection}>
       <div className={styles.ctaBackground}>
@@ -17,7 +20,7 @@ export function CallToAction() {
         <p className={styles.ctaDescription}>
           Cadastre-se e registre suas ações de forma simples e organizada.
         </p>
-        <Button variant='quaternary'>Criar minha conta</Button>
+        <Button variant='quaternary' onClick={handleSignup}>Criar minha conta</Button>
       </div>
     </section>
   );
