@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 280px; /* Largura fixa para desktop */
+  width: 280px;
   height: 100vh;
   padding: 2rem 1.5rem;
   background-color: var(--color-bg-white);
@@ -82,7 +82,6 @@
   color: var(--color-text-primary);
 }
 
-/* Botão Hamburguer para Mobile */
 .mobileToggle {
   display: none;
   position: fixed;
@@ -98,7 +97,6 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* Overlay para mobile */
 .overlay {
   display: none;
   position: fixed;
@@ -110,7 +108,6 @@
   z-index: 999;
 }
 
-/* Media Queries para Responsividade */
 @media (max-width: 768px) {
   .sidebar {
     width: 280px;
@@ -136,13 +133,11 @@
 
 @media (min-width: 769px) and (max-width: 1024px) {
   .sidebar {
-    width: 240px; /* Largura um pouco menor em tablets */
+    width: 240px;
   }
 }
 
-/* Ajuste para o conteúdo principal não ficar atrás da sidebar */
 @media (min-width: 769px) {
-  /* Adicione esta margem ao seu conteúdo principal */
   main {
     margin-left: 280px;
   }

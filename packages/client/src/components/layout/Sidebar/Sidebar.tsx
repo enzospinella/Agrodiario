@@ -1,10 +1,8 @@
-// src/components/layout/Sidebar/Sidebar.tsx
 import { useNavigate, NavLink } from 'react-router-dom';
 import { useAuth } from '../../../contexts/AuthContext';
 import styles from './Sidebar.module.css';
 import logo from '../../../assets/logo.png';
 
-// Importando ícones do React-Icons
 import {
   FiHome,
   FiLogOut,
@@ -31,7 +29,6 @@ export function Sidebar() {
 
   return (
     <>
-      {/* Botão Hamburguer para Mobile */}
       <button 
         className={styles.mobileToggle}
         onClick={toggleMobileMenu}
@@ -49,7 +46,6 @@ export function Sidebar() {
       )}
 
       <aside className={`${styles.sidebar} ${isMobileOpen ? styles.mobileOpen : ''}`}>
-        {/* Seção Superior: Logo e Navegação */}
         <div>
           <div className={styles.sidebarTop}>
             <img src={logo} alt="AgroDiário Logo" className={styles.logo} />
@@ -114,7 +110,6 @@ export function Sidebar() {
           </nav>
         </div>
 
-        {/* Seção Inferior: Logout */}
         <div className={styles.sidebarBottom}>
           <button onClick={handleLogout} className={styles.logoutButton}>
             <FiLogOut size={20} />
