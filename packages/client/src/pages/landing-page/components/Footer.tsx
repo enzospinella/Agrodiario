@@ -26,7 +26,7 @@ export function Footer() {
                 <div className={styles.footerSection}>
                     <p className={styles.footerText}>
                         <IconMail size={20} />
-                        agrodiario@email.com
+                        <a href="mailto:agrodiario@email.com">agrodiario@email.com</a>
                     </p>
 
                     <p className={styles.footerText}>

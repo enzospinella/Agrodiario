@@ -54,6 +54,18 @@
   color: var(--color-text-on-primary-container);
 }
 
+/* Links que aparecem dentro de textos (ex: email, endereço) */
+.footerText a {
+  color: var(--color-text-on-surface); /* mesma cor do texto */
+  text-decoration: none;
+  font-weight: 400;
+}
+
+.footerText a:hover {
+  color: var(--color-text-on-surface); /* mantém a mesma cor no hover */
+  text-decoration: underline;         /* opcional */
+}
+
 .footerText {
   font-size: 14px;
   color: var(--color-text-on-surface);

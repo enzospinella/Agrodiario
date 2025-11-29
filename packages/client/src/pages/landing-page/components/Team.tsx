@@ -15,41 +15,49 @@ export function Team() {
             name: "Aline Nakazawa",
             title: "Mestranda em Ciência da Computação (IME-USP)",
             image: aline,
+            linkedin: "https://www.linkedin.com/in/alinenakazawa/",
         },
         {
             name: "Ana Carla Quallio Rosa",
             title: "Mestranda em Ciência da Computação (IME-USP)",
             image: ana,
+            linkedin: "https://www.linkedin.com/in/ana-carla-quallio-rosa/",
         },
         {
             name: "Enzo Spinella",
             title: "Estudante de Ciência da Computação (IME-USP)",
             image: enzo,
+            linkedin: "https://www.linkedin.com/in/enzo-spinella/",
         },
         {
             name: "Sophia Gutruf",
             title: "Estudante de Ciência da Computação (IME-USP)",
             image: sophia,
+            linkedin: "https://www.linkedin.com/in/sophia-gutruf",
         },
         {
             name: "Victor Feitosa",
             title: "Estudante de Ciência da Computação (IME-USP)",
             image: victor,
+            linkedin: "https://www.linkedin.com/in/victor-feitosa-182477b4/",
         },
         {
             name: "Igor Wiese",
             title: "Doutor em Ciência da Computação (IME-USP)",
             image: igor,
+            linkedin: "https://br.linkedin.com/in/igor-wiese-214ab85b",
         },
         {
             name: "Reginaldo Ré",
             title: "Doutor em Ciência da Computação (ICMC-USP)",
             image: re,
+            linkedin: "https://br.linkedin.com/in/reginaldo-r%C3%A9-0328aa30",
         },
         {
             name: "Ivanilton Polato",
             title: "Doutor em Ciência da Computação (IME-USP)",
             image: ivanilton,
+            linkedin: "https://www.utfpr.edu.br/cursos/coordenacoes/stricto-sensu/ppgcc-cm/area-academica1/docentes/ivanilton-polato",
         },
     ];
 
@@ -72,9 +80,17 @@ export function Team() {
                             <p className={styles.teamTitle}>{member.title}</p>
 
                             <div className={styles.teamSocial}>
-                                <a href="#" className={styles.socialIcon}>
-                                    <IconBrandLinkedinFilled size={24} stroke={1.5} />
-                                </a>
+                                <div className={styles.teamSocial}>
+                                    <a
+                                        href={member.linkedin}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={styles.socialIcon}
+                                    >
+                                        <IconBrandLinkedinFilled size={24} stroke={1.5} />
+                                    </a>
+                                </div>
+
                             </div>
                         </div>
                     </div>
