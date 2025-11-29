@@ -1,5 +1,5 @@
 // src/router.tsx
-import { createBrowserRouter, Outlet } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
 
 // Layouts
 import RootLayout from './layouts/RootLayout';
@@ -9,7 +9,7 @@ import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import LoginPage from './pages/auth/Login';
 import RegisterPage from './pages/auth/Register';
 
-// Páginas do App (dentro do RootLayout)
+// Páginas do App
 import HomePage from './pages/Home';
 import DiaryPage from './pages/Diary';
 import PropertiesPage from './pages/Properties';
@@ -27,11 +27,10 @@ export const router = createBrowserRouter([
   /* --- ROTA PADRÃO (Pública) --- */
   {
     path: '/',
-    element: <Landing />, // Agora a Landing é a página inicial
+    element: <Landing />,
   },
 
-  /* --- ROTAS DE AUTENTICAÇÃO (Públicas) --- */
-  /* --- ROTAS DE AUTENTICAÇÃO --- */
+  /* --- AUTENTICAÇÃO --- */
   {
     path: '/login',
     element: <LoginPage />,
@@ -41,8 +40,7 @@ export const router = createBrowserRouter([
     element: <RegisterPage />,
   },
 
-  /* --- ROTAS DO APP (Protegidas) --- */
-  /* --- ROTAS DO APP --- */
+  /* --- ROTAS PROTEGIDAS DO APP --- */
   {
     path: '/app',
     element: (
@@ -52,46 +50,34 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
-        index: true,
-        element: <HomePage />, // /app
+        index: true, // /app
+        element: <HomePage />,
       },
+
+      /* Diario */
       {
         path: 'diary',
         element: <DiaryLayout />,
         children: [
-          { index: true, element: <DiaryPage /> },      // /app/diary
-          { path: 'new', element: <NewActivity /> },    // /app/diary/new
-          { path: 'edit/:id', element: <EditActivity /> },
-        index: true, 
-        element: <HomePage />,
-      },
-      {
-        path: 'diary',
-        element: <DiaryLayout />, 
-        children: [
-          { index: true, element: <DiaryPage /> },      
-          { path: 'new', element: <NewActivity /> },  
-          { path: 'edit/:id', element: <EditActivity /> }, 
+          { index: true, element: <DiaryPage /> },       // /app/diary
+          { path: 'new', element: <NewActivity /> },     // /app/diary/new
+          { path: 'edit/:id', element: <EditActivity /> } // /app/diary/edit/123
         ],
       },
 
+      /* Propriedades */
       {
         path: 'properties',
         element: <PropertiesLayout />,
         children: [
-          { index: true, element: <PropertiesPage /> }, // /app/properties
+          { index: true, element: <PropertiesPage /> },  // /app/properties
           { path: 'new', element: <NewProperty /> },
-          { path: 'edit/:id', element: <EditProperty /> },
-        element: <PropertiesLayout />, 
-        children: [
-          { index: true, element: <PropertiesPage /> },    
-          { path: 'new', element: <NewProperty /> }, 
-          { path: 'edit/:id', element: <EditProperty /> }, 
+          { path: 'edit/:id', element: <EditProperty /> }
         ],
       },
 
-      { path: 'cultures', element: <CulturesPage /> }, // /app/cultures
-      { path: 'products', element: <ProductsPage /> }, // /app/products
+      { path: 'cultures', element: <CulturesPage /> },
+      { path: 'products', element: <ProductsPage /> },
     ],
   },
 ]);
