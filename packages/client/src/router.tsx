@@ -21,6 +21,7 @@ import EditActivity from './pages/EditActivity';
 import PropertiesLayout from './layouts/PropertiesLayout';
 import NewProperty from './pages/NewProperty';
 import EditProperty from './pages/EditProperty';
+import CulturesLayout from './layouts/CulturesLayout';
 import Landing from './pages/landing-page/Landing';
 
 export const router = createBrowserRouter([
@@ -76,7 +77,18 @@ export const router = createBrowserRouter([
         ],
       },
 
-      { path: 'cultures', element: <CulturesPage /> },
+      /* Culturas */
+      {
+        path: 'cultures',
+        element: <CulturesLayout />,
+        children: [
+          { index: true, element: <CulturesPage /> },  // /app/cultures
+          // TODO: Add new and edit pages when ready
+          // { path: 'new', element: <NewCulture /> },
+          // { path: 'edit/:id', element: <EditCulture /> }
+        ],
+      },
+
       { path: 'products', element: <ProductsPage /> },
     ],
   },

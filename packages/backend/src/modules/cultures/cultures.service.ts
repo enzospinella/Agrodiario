@@ -8,6 +8,7 @@ import { Repository, In } from 'typeorm';
 import { Culture } from './entities/culture.entity';
 import { Property } from '../properties/entities/property.entity';
 import { CreateCultureDto } from './dto/create-culture.dto';
+import { UpdateCultureDto } from './dto/update-culture.dto';
 import { CultureResponseDto } from './dto/culture-response.dto';
 
 @Injectable()
@@ -21,7 +22,10 @@ export class CulturesService {
     private readonly propertiesRepository: Repository<Property>,
   ) {}
 
-  async create(createCultureDto: CreateCultureDto, userId: string): Promise<CultureResponseDto> {
+  async create(
+    createCultureDto: CreateCultureDto,
+    userId: string,
+  ): Promise<{ message: string; data: CultureResponseDto }> {
     await this.validatePropertyOwnership(createCultureDto.propertyId, userId);
 
     const culture = this.culturesRepository.create({
@@ -37,7 +41,10 @@ export class CulturesService {
       relations: ['property'],
     });
 
-    return this.mapToResponseDto(cultureWithProperty);
+    return {
+      message: 'Cultura adicionada com sucesso',
+      data: this.mapToResponseDto(cultureWithProperty),
+    };
   }
 
   async findAll(
@@ -102,6 +109,71 @@ export class CulturesService {
     dto.activitiesCount = culture.activities?.length || 0;
     
     return dto;
+  }
+
+  async update(
+    id: string,
+    updateCultureDto: UpdateCultureDto,
+    userId: string,
+  ): Promise<{ message: string; data: CultureResponseDto }> {
+    const culture = await this.culturesRepository.findOne({
+      where: { id, isActive: true },
+      relations: ['property'],
+    });
+
+    if (!culture) {
+      throw new NotFoundException('Cultura não encontrada');
+    }
+
+    if (culture.userId !== userId) {
+      throw new ForbiddenException('Você não tem permissão para editar esta cultura');
+    }
+
+    // Convert DTO to entity format and update fields
+    if (updateCultureDto.cultureName !== undefined) culture.cultureName = updateCultureDto.cultureName;
+    if (updateCultureDto.cultivar !== undefined) culture.cultivar = updateCultureDto.cultivar;
+    if (updateCultureDto.cycle !== undefined) culture.cycle = updateCultureDto.cycle;
+    if (updateCultureDto.origin !== undefined) culture.origin = updateCultureDto.origin;
+    if (updateCultureDto.supplier !== undefined) culture.supplier = updateCultureDto.supplier;
+    if (updateCultureDto.plantingDate !== undefined) culture.plantingDate = new Date(updateCultureDto.plantingDate);
+    if (updateCultureDto.plantingArea !== undefined) culture.plantingArea = updateCultureDto.plantingArea;
+    if (updateCultureDto.observations !== undefined) culture.observations = updateCultureDto.observations;
+
+    const updatedCulture = await this.culturesRepository.save(culture);
+
+    // Reload with all relations
+    const cultureWithRelations = await this.culturesRepository.findOne({
+      where: { id: updatedCulture.id },
+      relations: ['property', 'activities'],
+    });
+
+    const dto = this.mapToResponseDto(cultureWithRelations);
+    dto.activitiesCount = cultureWithRelations.activities?.length || 0;
+
+    return {
+      message: 'Alterações salvas com sucesso',
+      data: dto,
+    };
+  }
+
+  async remove(id: string, userId: string): Promise<{ message: string }> {
+    const culture = await this.culturesRepository.findOne({
+      where: { id, isActive: true },
+    });
+
+    if (!culture) {
+      throw new NotFoundException('Cultura não encontrada');
+    }
+
+    if (culture.userId !== userId) {
+      throw new ForbiddenException('Você não tem permissão para excluir esta cultura');
+    }
+
+    await this.culturesRepository.remove(culture);
+
+    return {
+      message: 'Cultura excluída com sucesso',
+    };
   }
 
   async getUserProperties(userId: string): Promise<any[]> {

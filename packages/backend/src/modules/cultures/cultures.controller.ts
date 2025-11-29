@@ -2,6 +2,8 @@ import {
   Controller,
   Get,
   Post,
+  Patch,
+  Delete,
   Body,
   Param,
   UseGuards,
@@ -12,6 +14,7 @@ import {
 } from '@nestjs/common';
 import { CulturesService } from './cultures.service';
 import { CreateCultureDto } from './dto/create-culture.dto';
+import { UpdateCultureDto } from './dto/update-culture.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { User } from '../users/entities/user.entity';
@@ -58,25 +61,35 @@ export class CulturesController {
     return this.culturesService.getUserProperties(user.id);
   }
 
-  @Get('search/crops')
+  @Get('search/culture-names')
   @HttpCode(HttpStatus.OK)
-  async searchCrops(@Query('q') searchTerm?: string, @Query('limit') limit?: string) {
-    const limitNumber = this.parsePositiveInteger(limit, 50);
-    return this.plantsApiService.searchCrops(searchTerm, limitNumber);
-  }
-
-  @Get('search/cultivars')
-  @HttpCode(HttpStatus.OK)
-  async searchCultivars(@Query('q') query: string) {
-    if (!query || query.trim().length < 2) {
+  async searchCultureNames(@Query('q') searchTerm?: string, @Query('limit') limit?: string) {
+    if (!searchTerm || searchTerm.trim().length < 2) {
       return [];
     }
-    return this.plantsApiService.searchCultivars(query, 20);
+    const limitNumber = this.parsePositiveInteger(limit, 50);
+    return this.plantsApiService.searchCrops(searchTerm, limitNumber);
   }
 
   @Get(':id')
   async findOne(@Param('id', ParseUUIDPipe) id: string, @CurrentUser() user: User) {
     return this.culturesService.findOne(id, user.id);
+  }
+
+  @Patch(':id')
+  @HttpCode(HttpStatus.OK)
+  async update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateCultureDto: UpdateCultureDto,
+    @CurrentUser() user: User,
+  ) {
+    return this.culturesService.update(id, updateCultureDto, user.id);
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.OK)
+  async remove(@Param('id', ParseUUIDPipe) id: string, @CurrentUser() user: User) {
+    return this.culturesService.remove(id, user.id);
   }
 
   /**
